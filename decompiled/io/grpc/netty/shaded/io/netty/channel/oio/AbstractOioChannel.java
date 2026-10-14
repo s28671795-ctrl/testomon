@@ -1,0 +1,130 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package io.grpc.netty.shaded.io.netty.channel.oio;
+
+import io.grpc.netty.shaded.io.netty.channel.AbstractChannel;
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromise;
+import io.grpc.netty.shaded.io.netty.channel.EventLoop;
+import io.grpc.netty.shaded.io.netty.channel.ThreadPerChannelEventLoop;
+import java.net.SocketAddress;
+
+@Deprecated
+public abstract class AbstractOioChannel
+extends AbstractChannel {
+    protected static final int SO_TIMEOUT = 1000;
+    boolean readPending;
+    boolean readWhenInactive;
+    final Runnable readTask = new Runnable(){
+
+        @Override
+        public void run() {
+            AbstractOioChannel.this.doRead();
+        }
+    };
+    private final Runnable clearReadPendingRunnable = new Runnable(){
+
+        @Override
+        public void run() {
+            AbstractOioChannel.this.readPending = false;
+        }
+    };
+
+    protected AbstractOioChannel(Channel parent) {
+        super(parent);
+    }
+
+    @Override
+    protected AbstractChannel.AbstractUnsafe newUnsafe() {
+        return new DefaultOioUnsafe();
+    }
+
+    @Override
+    protected boolean isCompatible(EventLoop loop) {
+        return loop instanceof ThreadPerChannelEventLoop;
+    }
+
+    protected abstract void doConnect(SocketAddress var1, SocketAddress var2) throws Exception;
+
+    @Override
+    protected void doBeginRead() throws Exception {
+        if (this.readPending) {
+            return;
+        }
+        if (!this.isActive()) {
+            this.readWhenInactive = true;
+            return;
+        }
+        this.readPending = true;
+        this.eventLoop().execute(this.readTask);
+    }
+
+    protected abstract void doRead();
+
+    @Deprecated
+    protected boolean isReadPending() {
+        return this.readPending;
+    }
+
+    @Deprecated
+    protected void setReadPending(final boolean readPending) {
+        if (this.isRegistered()) {
+            EventLoop eventLoop = this.eventLoop();
+            if (eventLoop.inEventLoop()) {
+                this.readPending = readPending;
+            } else {
+                eventLoop.execute(new Runnable(){
+
+                    @Override
+                    public void run() {
+                        AbstractOioChannel.this.readPending = readPending;
+                    }
+                });
+            }
+        } else {
+            this.readPending = readPending;
+        }
+    }
+
+    protected final void clearReadPending() {
+        if (this.isRegistered()) {
+            EventLoop eventLoop = this.eventLoop();
+            if (eventLoop.inEventLoop()) {
+                this.readPending = false;
+            } else {
+                eventLoop.execute(this.clearReadPendingRunnable);
+            }
+        } else {
+            this.readPending = false;
+        }
+    }
+
+    private final class DefaultOioUnsafe
+    extends AbstractChannel.AbstractUnsafe {
+        private DefaultOioUnsafe() {
+            super(AbstractOioChannel.this);
+        }
+
+        @Override
+        public void connect(SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise) {
+            if (!promise.setUncancellable() || !this.ensureOpen(promise)) {
+                return;
+            }
+            try {
+                boolean wasActive = AbstractOioChannel.this.isActive();
+                AbstractOioChannel.this.doConnect(remoteAddress, localAddress);
+                boolean active = AbstractOioChannel.this.isActive();
+                this.safeSetSuccess(promise);
+                if (!wasActive && active) {
+                    AbstractOioChannel.this.pipeline().fireChannelActive();
+                }
+            }
+            catch (Throwable t2) {
+                this.safeSetFailure(promise, this.annotateConnectException(t2, remoteAddress));
+                this.closeIfClosed();
+            }
+        }
+    }
+}
+

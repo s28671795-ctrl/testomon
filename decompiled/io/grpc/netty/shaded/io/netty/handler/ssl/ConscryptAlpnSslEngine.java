@@ -1,0 +1,159 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.handler.ssl.JdkApplicationProtocolNegotiator;
+import io.grpc.netty.shaded.io.netty.handler.ssl.JdkSslEngine;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslUtils;
+import io.grpc.netty.shaded.io.netty.util.internal.EmptyArrays;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.SystemPropertyUtil;
+import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLEngineResult;
+import javax.net.ssl.SSLException;
+import org.conscrypt.AllocatedBuffer;
+import org.conscrypt.BufferAllocator;
+import org.conscrypt.Conscrypt;
+import org.conscrypt.HandshakeListener;
+
+abstract class ConscryptAlpnSslEngine
+extends JdkSslEngine {
+    private static final boolean USE_BUFFER_ALLOCATOR = SystemPropertyUtil.getBoolean("io.grpc.netty.shaded.io.netty.handler.ssl.conscrypt.useBufferAllocator", true);
+
+    static ConscryptAlpnSslEngine newClientEngine(SSLEngine engine, ByteBufAllocator alloc, JdkApplicationProtocolNegotiator applicationNegotiator) {
+        return new ClientEngine(engine, alloc, applicationNegotiator);
+    }
+
+    static ConscryptAlpnSslEngine newServerEngine(SSLEngine engine, ByteBufAllocator alloc, JdkApplicationProtocolNegotiator applicationNegotiator) {
+        return new ServerEngine(engine, alloc, applicationNegotiator);
+    }
+
+    private ConscryptAlpnSslEngine(SSLEngine engine, ByteBufAllocator alloc, List<String> protocols) {
+        super(engine);
+        if (USE_BUFFER_ALLOCATOR) {
+            Conscrypt.setBufferAllocator(engine, (BufferAllocator)new BufferAllocatorAdapter(alloc));
+        }
+        Conscrypt.setApplicationProtocols(engine, protocols.toArray(EmptyArrays.EMPTY_STRINGS));
+    }
+
+    final int calculateOutNetBufSize(int plaintextBytes, int numBuffers) {
+        return this.calculateSpace(plaintextBytes, numBuffers, Integer.MAX_VALUE);
+    }
+
+    final int calculateRequiredOutBufSpace(int plaintextBytes, int numBuffers) {
+        return this.calculateSpace(plaintextBytes, numBuffers, Conscrypt.maxEncryptedPacketLength());
+    }
+
+    private int calculateSpace(int plaintextBytes, int numBuffers, long maxPacketLength) {
+        long maxOverhead = (long)Conscrypt.maxSealOverhead(this.getWrappedEngine()) * (long)numBuffers;
+        return (int)Math.min(maxPacketLength, (long)plaintextBytes + maxOverhead);
+    }
+
+    final SSLEngineResult unwrap(ByteBuffer[] srcs, ByteBuffer[] dests) throws SSLException {
+        return Conscrypt.unwrap(this.getWrappedEngine(), srcs, dests);
+    }
+
+    private static final class BufferAdapter
+    extends AllocatedBuffer {
+        private final ByteBuf nettyBuffer;
+        private final ByteBuffer buffer;
+
+        BufferAdapter(ByteBuf nettyBuffer) {
+            this.nettyBuffer = nettyBuffer;
+            this.buffer = nettyBuffer.nioBuffer(0, nettyBuffer.capacity());
+        }
+
+        @Override
+        public ByteBuffer nioBuffer() {
+            return this.buffer;
+        }
+
+        @Override
+        public AllocatedBuffer retain() {
+            this.nettyBuffer.retain();
+            return this;
+        }
+
+        @Override
+        public AllocatedBuffer release() {
+            this.nettyBuffer.release();
+            return this;
+        }
+    }
+
+    private static final class BufferAllocatorAdapter
+    extends BufferAllocator {
+        private final ByteBufAllocator alloc;
+
+        BufferAllocatorAdapter(ByteBufAllocator alloc) {
+            this.alloc = alloc;
+        }
+
+        @Override
+        public AllocatedBuffer allocateDirectBuffer(int capacity) {
+            return new BufferAdapter(this.alloc.directBuffer(capacity));
+        }
+    }
+
+    private static final class ServerEngine
+    extends ConscryptAlpnSslEngine {
+        private final JdkApplicationProtocolNegotiator.ProtocolSelector protocolSelector;
+
+        ServerEngine(SSLEngine engine, ByteBufAllocator alloc, JdkApplicationProtocolNegotiator applicationNegotiator) {
+            super(engine, alloc, applicationNegotiator.protocols());
+            Conscrypt.setHandshakeListener(engine, new HandshakeListener(){
+
+                @Override
+                public void onHandshakeFinished() throws SSLException {
+                    ServerEngine.this.selectProtocol();
+                }
+            });
+            this.protocolSelector = ObjectUtil.checkNotNull(applicationNegotiator.protocolSelectorFactory().newSelector(this, new LinkedHashSet<String>(applicationNegotiator.protocols())), "protocolSelector");
+        }
+
+        private void selectProtocol() throws SSLException {
+            try {
+                String protocol = Conscrypt.getApplicationProtocol(this.getWrappedEngine());
+                this.protocolSelector.select(protocol != null ? Collections.singletonList(protocol) : Collections.emptyList());
+            }
+            catch (Throwable e) {
+                throw SslUtils.toSSLHandshakeException(e);
+            }
+        }
+    }
+
+    private static final class ClientEngine
+    extends ConscryptAlpnSslEngine {
+        private final JdkApplicationProtocolNegotiator.ProtocolSelectionListener protocolListener;
+
+        ClientEngine(SSLEngine engine, ByteBufAllocator alloc, JdkApplicationProtocolNegotiator applicationNegotiator) {
+            super(engine, alloc, applicationNegotiator.protocols());
+            Conscrypt.setHandshakeListener(engine, new HandshakeListener(){
+
+                @Override
+                public void onHandshakeFinished() throws SSLException {
+                    ClientEngine.this.selectProtocol();
+                }
+            });
+            this.protocolListener = ObjectUtil.checkNotNull(applicationNegotiator.protocolListenerFactory().newListener(this, applicationNegotiator.protocols()), "protocolListener");
+        }
+
+        private void selectProtocol() throws SSLException {
+            String protocol = Conscrypt.getApplicationProtocol(this.getWrappedEngine());
+            try {
+                this.protocolListener.selected(protocol);
+            }
+            catch (Throwable e) {
+                throw SslUtils.toSSLHandshakeException(e);
+            }
+        }
+    }
+}
+

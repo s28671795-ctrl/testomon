@@ -1,0 +1,35 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.apache.cxf.ws.addressing;
+
+import java.util.HashMap;
+import java.util.Map;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyAttribute;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.namespace.QName;
+
+@XmlAccessorType(value=XmlAccessType.FIELD)
+@XmlType(name="AttributedAnyType", namespace="http://www.w3.org/2005/08/addressing", propOrder={"any"})
+public class AttributedAnyType {
+    @XmlAnyElement(lax=true)
+    protected Object any;
+    @XmlAnyAttribute
+    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+
+    public Object getAny() {
+        return this.any;
+    }
+
+    public void setAny(Object value) {
+        this.any = value;
+    }
+
+    public Map<QName, String> getOtherAttributes() {
+        return this.otherAttributes;
+    }
+}
+

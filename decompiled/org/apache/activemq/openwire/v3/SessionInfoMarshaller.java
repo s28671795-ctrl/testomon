@@ -1,0 +1,63 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.apache.activemq.openwire.v3;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import org.apache.activemq.command.DataStructure;
+import org.apache.activemq.command.SessionId;
+import org.apache.activemq.command.SessionInfo;
+import org.apache.activemq.openwire.BooleanStream;
+import org.apache.activemq.openwire.OpenWireFormat;
+import org.apache.activemq.openwire.v3.BaseCommandMarshaller;
+
+public class SessionInfoMarshaller
+extends BaseCommandMarshaller {
+    @Override
+    public byte getDataStructureType() {
+        return 4;
+    }
+
+    @Override
+    public DataStructure createObject() {
+        return new SessionInfo();
+    }
+
+    @Override
+    public void tightUnmarshal(OpenWireFormat wireFormat, Object o, DataInput dataIn, BooleanStream bs) throws IOException {
+        super.tightUnmarshal(wireFormat, o, dataIn, bs);
+        SessionInfo info = (SessionInfo)o;
+        info.setSessionId((SessionId)this.tightUnmarsalCachedObject(wireFormat, dataIn, bs));
+    }
+
+    @Override
+    public int tightMarshal1(OpenWireFormat wireFormat, Object o, BooleanStream bs) throws IOException {
+        SessionInfo info = (SessionInfo)o;
+        int rc = super.tightMarshal1(wireFormat, o, bs);
+        return (rc += this.tightMarshalCachedObject1(wireFormat, info.getSessionId(), bs)) + 0;
+    }
+
+    @Override
+    public void tightMarshal2(OpenWireFormat wireFormat, Object o, DataOutput dataOut, BooleanStream bs) throws IOException {
+        super.tightMarshal2(wireFormat, o, dataOut, bs);
+        SessionInfo info = (SessionInfo)o;
+        this.tightMarshalCachedObject2(wireFormat, info.getSessionId(), dataOut, bs);
+    }
+
+    @Override
+    public void looseUnmarshal(OpenWireFormat wireFormat, Object o, DataInput dataIn) throws IOException {
+        super.looseUnmarshal(wireFormat, o, dataIn);
+        SessionInfo info = (SessionInfo)o;
+        info.setSessionId((SessionId)this.looseUnmarsalCachedObject(wireFormat, dataIn));
+    }
+
+    @Override
+    public void looseMarshal(OpenWireFormat wireFormat, Object o, DataOutput dataOut) throws IOException {
+        SessionInfo info = (SessionInfo)o;
+        super.looseMarshal(wireFormat, o, dataOut);
+        this.looseMarshalCachedObject(wireFormat, info.getSessionId(), dataOut);
+    }
+}
+

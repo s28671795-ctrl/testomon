@@ -1,0 +1,44 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.hibernate.validator.internal.engine.validationcontext;
+
+import javax.validation.ConstraintValidatorFactory;
+import javax.validation.ConstraintViolation;
+import javax.validation.Path;
+import javax.validation.TraversableResolver;
+import javax.validation.metadata.ConstraintDescriptor;
+import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorInitializationContext;
+import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
+import org.hibernate.validator.internal.engine.constraintvalidation.ConstraintValidatorManager;
+import org.hibernate.validator.internal.engine.constraintvalidation.ConstraintViolationCreationContext;
+import org.hibernate.validator.internal.engine.validationcontext.AbstractValidationContext;
+import org.hibernate.validator.internal.engine.validationcontext.ValidatorScopedContext;
+import org.hibernate.validator.internal.engine.valuecontext.ValueContext;
+import org.hibernate.validator.internal.metadata.aggregated.BeanMetaData;
+
+class BeanValidationContext<T>
+extends AbstractValidationContext<T> {
+    BeanValidationContext(ConstraintValidatorManager constraintValidatorManager, ConstraintValidatorFactory constraintValidatorFactory, ValidatorScopedContext validatorScopedContext, TraversableResolver traversableResolver, HibernateConstraintValidatorInitializationContext constraintValidatorInitializationContext, T rootBean, Class<T> rootBeanClass, BeanMetaData<T> rootBeanMetaData) {
+        super(constraintValidatorManager, constraintValidatorFactory, validatorScopedContext, traversableResolver, constraintValidatorInitializationContext, rootBean, rootBeanClass, rootBeanMetaData, BeanValidationContext.buildDisableAlreadyValidatedBeanTracking(rootBeanMetaData));
+    }
+
+    private static boolean buildDisableAlreadyValidatedBeanTracking(BeanMetaData<?> rootBeanMetaData) {
+        return !rootBeanMetaData.hasCascadables();
+    }
+
+    @Override
+    protected ConstraintViolation<T> createConstraintViolation(String messageTemplate, String interpolatedMessage, Path propertyPath, ConstraintDescriptor<?> constraintDescriptor, ValueContext<?, ?> localContext, ConstraintViolationCreationContext constraintViolationCreationContext) {
+        return ConstraintViolationImpl.forBeanValidation(messageTemplate, constraintViolationCreationContext.getMessageParameters(), constraintViolationCreationContext.getExpressionVariables(), interpolatedMessage, this.getRootBeanClass(), this.getRootBean(), localContext.getCurrentBean(), localContext.getCurrentValidatedValue(), propertyPath, constraintDescriptor, constraintViolationCreationContext.getDynamicPayload());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
+        sb.append('{');
+        sb.append("rootBeanClass=").append(this.getRootBeanClass());
+        sb.append('}');
+        return sb.toString();
+    }
+}
+

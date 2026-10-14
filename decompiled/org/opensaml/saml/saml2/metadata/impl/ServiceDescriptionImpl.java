@@ -1,0 +1,16 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.opensaml.saml.saml2.metadata.impl;
+
+import org.opensaml.saml.saml2.metadata.ServiceDescription;
+import org.opensaml.saml.saml2.metadata.impl.LocalizedNameImpl;
+
+public class ServiceDescriptionImpl
+extends LocalizedNameImpl
+implements ServiceDescription {
+    protected ServiceDescriptionImpl(String namespaceURI, String elementLocalName, String namespacePrefix) {
+        super(namespaceURI, elementLocalName, namespacePrefix);
+    }
+}
+

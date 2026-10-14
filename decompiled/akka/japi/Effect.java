@@ -1,0 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package akka.japi;
+
+import scala.reflect.ScalaSignature;
+
+@FunctionalInterface
+@ScalaSignature(bytes="\u0006\u000592qAA\u0002\u0011\u0002G\u0005\u0001\u0002C\u0003\u0010\u0001\u0019\u0005\u0001C\u0001\u0004FM\u001a,7\r\u001e\u0006\u0003\t\u0015\tAA[1qS*\ta!\u0001\u0003bW.\f7\u0001A\n\u0003\u0001%\u0001\"AC\u0007\u000e\u0003-Q\u0011\u0001D\u0001\u0006g\u000e\fG.Y\u0005\u0003\u001d-\u0011a!\u00118z%\u00164\u0017!B1qa2LH#A\t\u0011\u0005)\u0011\u0012BA\n\f\u0005\u0011)f.\u001b;)\u0007\u0005)B\u0005E\u0002\u000b-aI!aF\u0006\u0003\rQD'o\\<t!\tI\u0012E\u0004\u0002\u001b?9\u00111DH\u0007\u00029)\u0011QdB\u0001\u0007yI|w\u000e\u001e \n\u00031I!\u0001I\u0006\u0002\u000fA\f7m[1hK&\u0011!e\t\u0002\n\u000bb\u001cW\r\u001d;j_:T!\u0001I\u0006$\u0003aA#\u0001\u0001\u0014\u0011\u0005\u001dbS\"\u0001\u0015\u000b\u0005%R\u0013\u0001\u00027b]\u001eT\u0011aK\u0001\u0005U\u00064\u0018-\u0003\u0002.Q\t\u0019b)\u001e8di&|g.\u00197J]R,'OZ1dK\u0002")
+public interface Effect {
+    public void apply() throws Exception;
+}
+

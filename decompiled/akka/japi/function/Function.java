@@ -1,0 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package akka.japi.function;
+
+import java.io.Serializable;
+import scala.reflect.ScalaSignature;
+
+@FunctionalInterface
+@ScalaSignature(bytes="\u0006\u0005)3qAA\u0002\u0011\u0002G\u0005!\u0002C\u0003\u001b\u0001\u0019\u00051D\u0001\u0005Gk:\u001cG/[8o\u0015\t!Q!\u0001\u0005gk:\u001cG/[8o\u0015\t1q!\u0001\u0003kCBL'\"\u0001\u0005\u0002\t\u0005\\7.Y\u0002\u0001+\rY!FH\n\u0004\u00011\u0011\u0002CA\u0007\u0011\u001b\u0005q!\"A\b\u0002\u000bM\u001c\u0017\r\\1\n\u0005Eq!AB!osJ+g\r\u0005\u0002\u001415\tAC\u0003\u0002\u0016-\u0005\u0011\u0011n\u001c\u0006\u0002/\u0005!!.\u0019<b\u0013\tIBC\u0001\u0007TKJL\u0017\r\\5{C\ndW-A\u0003baBd\u0017\u0010\u0006\u0002\u001dOA\u0011QD\b\u0007\u0001\t\u0019y\u0002\u0001\"b\u0001A\t\t!+\u0005\u0002\"IA\u0011QBI\u0005\u0003G9\u0011qAT8uQ&tw\r\u0005\u0002\u000eK%\u0011aE\u0004\u0002\u0004\u0003:L\b\"\u0002\u0015\u0002\u0001\u0004I\u0013!\u00029be\u0006l\u0007CA\u000f+\t\u0019Y\u0003\u0001#b\u0001A\t\tA\u000bK\u0002\u0002[q\u00022!\u0004\u00181\u0013\tycB\u0001\u0004uQJ|wo\u001d\t\u0003cer!AM\u001c\u000f\u0005M2T\"\u0001\u001b\u000b\u0005UJ\u0011A\u0002\u001fs_>$h(C\u0001\u0010\u0013\tAd\"A\u0004qC\u000e\\\u0017mZ3\n\u0005iZ$!C#yG\u0016\u0004H/[8o\u0015\tAdbI\u00011Q\t\u0001a\b\u0005\u0002@\u00056\t\u0001I\u0003\u0002B-\u0005!A.\u00198h\u0013\t\u0019\u0005IA\nGk:\u001cG/[8oC2Le\u000e^3sM\u0006\u001cW\r\u000b\u0003\u0001\u000b\"K\u0005CA\u0007G\u0013\t9eB\u0001\tTKJL\u0017\r\u001c,feNLwN\\+J\t\u0006)a/\u00197vKz\t\u0011\u0001")
+public interface Function<T, R>
+extends Serializable {
+    public R apply(T var1) throws Exception;
+}
+

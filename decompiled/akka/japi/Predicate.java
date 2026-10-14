@@ -1,0 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package akka.japi;
+
+import scala.reflect.ScalaSignature;
+
+@FunctionalInterface
+@ScalaSignature(bytes="\u0006\u0005-2qAA\u0002\u0011\u0002G\u0005\u0001\u0002C\u0003\u0011\u0001\u0019\u0005\u0011CA\u0005Qe\u0016$\u0017nY1uK*\u0011A!B\u0001\u0005U\u0006\u0004\u0018NC\u0001\u0007\u0003\u0011\t7n[1\u0004\u0001U\u0011\u0011\"G\n\u0003\u0001)\u0001\"a\u0003\b\u000e\u00031Q\u0011!D\u0001\u0006g\u000e\fG.Y\u0005\u0003\u001f1\u0011a!\u00118z%\u00164\u0017\u0001\u0002;fgR$\"AE\u000b\u0011\u0005-\u0019\u0012B\u0001\u000b\r\u0005\u001d\u0011un\u001c7fC:DQAF\u0001A\u0002]\tQ\u0001]1sC6\u0004\"\u0001G\r\r\u0001\u0011)!\u0004\u0001b\u00017\t\tA+\u0005\u0002\u001d?A\u00111\"H\u0005\u0003=1\u0011qAT8uQ&tw\r\u0005\u0002\fA%\u0011\u0011\u0005\u0004\u0002\u0004\u0003:L\bF\u0001\u0001$!\t!\u0013&D\u0001&\u0015\t1s%\u0001\u0003mC:<'\"\u0001\u0015\u0002\t)\fg/Y\u0005\u0003U\u0015\u00121CR;oGRLwN\\1m\u0013:$XM\u001d4bG\u0016\u0004")
+public interface Predicate<T> {
+    public boolean test(T var1);
+}
+

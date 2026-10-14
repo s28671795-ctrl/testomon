@@ -1,0 +1,16 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.oasis_open.docs.wsrf.rp_2;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlAccessorType(value=XmlAccessType.FIELD)
+@XmlType(name="")
+@XmlRootElement(name="InsertResourcePropertiesResponse")
+public class InsertResourcePropertiesResponse {
+}
+

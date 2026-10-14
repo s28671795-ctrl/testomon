@@ -1,0 +1,89 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.fusesource.hawtbuf;
+
+import org.fusesource.hawtbuf.Buffer;
+
+public final class AsciiBuffer
+extends Buffer {
+    private int hashCode;
+    private String value;
+
+    public AsciiBuffer(Buffer other) {
+        super(other);
+    }
+
+    public AsciiBuffer(byte[] data, int offset, int length) {
+        super(data, offset, length);
+    }
+
+    public AsciiBuffer(byte[] data) {
+        super(data);
+    }
+
+    public AsciiBuffer(String value) {
+        super(AsciiBuffer.encode(value));
+        this.value = value;
+    }
+
+    public String toString() {
+        if (this.value == null) {
+            this.value = AsciiBuffer.decode(this);
+        }
+        return this.value;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != AsciiBuffer.class) {
+            return false;
+        }
+        return this.equals((Buffer)obj);
+    }
+
+    public int hashCode() {
+        if (this.hashCode == 0) {
+            this.hashCode = super.hashCode();
+        }
+        return this.hashCode;
+    }
+
+    public static AsciiBuffer ascii(String value) {
+        if (value == null) {
+            return null;
+        }
+        return new AsciiBuffer(value);
+    }
+
+    public static AsciiBuffer ascii(Buffer buffer) {
+        if (buffer == null) {
+            return null;
+        }
+        if (buffer.getClass() == AsciiBuffer.class) {
+            return (AsciiBuffer)buffer;
+        }
+        return new AsciiBuffer(buffer);
+    }
+
+    public static byte[] encode(String value) {
+        int size = value.length();
+        byte[] rc = new byte[size];
+        for (int i = 0; i < size; ++i) {
+            rc[i] = (byte)(value.charAt(i) & 0xFF);
+        }
+        return rc;
+    }
+
+    public static String decode(Buffer value) {
+        int size = value.getLength();
+        char[] rc = new char[size];
+        for (int i = 0; i < size; ++i) {
+            rc[i] = (char)(value.get(i) & 0xFF);
+        }
+        return new String(rc);
+    }
+}
+

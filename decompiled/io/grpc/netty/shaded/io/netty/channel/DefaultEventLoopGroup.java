@@ -1,0 +1,40 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package io.grpc.netty.shaded.io.netty.channel;
+
+import io.grpc.netty.shaded.io.netty.channel.DefaultEventLoop;
+import io.grpc.netty.shaded.io.netty.channel.EventLoop;
+import io.grpc.netty.shaded.io.netty.channel.EventLoopGroup;
+import io.grpc.netty.shaded.io.netty.channel.MultithreadEventLoopGroup;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadFactory;
+
+public class DefaultEventLoopGroup
+extends MultithreadEventLoopGroup {
+    public DefaultEventLoopGroup() {
+        this(0);
+    }
+
+    public DefaultEventLoopGroup(int nThreads) {
+        this(nThreads, (ThreadFactory)null);
+    }
+
+    public DefaultEventLoopGroup(ThreadFactory threadFactory) {
+        this(0, threadFactory);
+    }
+
+    public DefaultEventLoopGroup(int nThreads, ThreadFactory threadFactory) {
+        super(nThreads, threadFactory, new Object[0]);
+    }
+
+    public DefaultEventLoopGroup(int nThreads, Executor executor2) {
+        super(nThreads, executor2, new Object[0]);
+    }
+
+    @Override
+    protected EventLoop newChild(Executor executor2, Object ... args2) throws Exception {
+        return new DefaultEventLoop((EventLoopGroup)this, executor2);
+    }
+}
+

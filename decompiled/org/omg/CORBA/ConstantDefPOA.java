@@ -1,0 +1,180 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.omg.CORBA;
+
+import java.util.HashMap;
+import org.omg.CORBA.BAD_OPERATION;
+import org.omg.CORBA.ConstantDef;
+import org.omg.CORBA.ConstantDefHelper;
+import org.omg.CORBA.ConstantDefOperations;
+import org.omg.CORBA.ContainedPackage.DescriptionHelper;
+import org.omg.CORBA.Container;
+import org.omg.CORBA.ContainerHelper;
+import org.omg.CORBA.DefinitionKindHelper;
+import org.omg.CORBA.IDLTypeHelper;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Object;
+import org.omg.CORBA.RepositoryHelper;
+import org.omg.CORBA.SystemException;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.InvokeHandler;
+import org.omg.CORBA.portable.OutputStream;
+import org.omg.CORBA.portable.ResponseHandler;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
+
+public abstract class ConstantDefPOA
+extends Servant
+implements InvokeHandler,
+ConstantDefOperations {
+    private static final HashMap<String, Integer> m_opsHash = new HashMap();
+    private String[] ids = new String[]{"IDL:omg.org/CORBA/ConstantDef:1.0", "IDL:omg.org/CORBA/Contained:1.0", "IDL:omg.org/CORBA/IRObject:1.0"};
+
+    public ConstantDef _this() {
+        Object __o = this._this_object();
+        ConstantDef __r = ConstantDefHelper.narrow(__o);
+        return __r;
+    }
+
+    public ConstantDef _this(ORB orb) {
+        Object __o = this._this_object(orb);
+        ConstantDef __r = ConstantDefHelper.narrow(__o);
+        return __r;
+    }
+
+    @Override
+    public OutputStream _invoke(String method2, InputStream _input, ResponseHandler handler) throws SystemException {
+        OutputStream _out = null;
+        Integer opsIndex = m_opsHash.get(method2);
+        if (null == opsIndex) {
+            throw new BAD_OPERATION(method2 + " not found");
+        }
+        switch (opsIndex) {
+            case 0: {
+                _out = handler.createReply();
+                this.value(_input.read_any());
+                break;
+            }
+            case 1: {
+                _out = handler.createReply();
+                IDLTypeHelper.write(_out, this.type_def());
+                break;
+            }
+            case 2: {
+                _out = handler.createReply();
+                RepositoryHelper.write(_out, this.containing_repository());
+                break;
+            }
+            case 3: {
+                _out = handler.createReply();
+                DefinitionKindHelper.write(_out, this.def_kind());
+                break;
+            }
+            case 4: {
+                _out = handler.createReply();
+                this.type_def(IDLTypeHelper.read(_input));
+                break;
+            }
+            case 5: {
+                _out = handler.createReply();
+                String tmpResult173 = this.absolute_name();
+                _out.write_string(tmpResult173);
+                break;
+            }
+            case 6: {
+                _out = handler.createReply();
+                String tmpResult174 = this.name();
+                _out.write_string(tmpResult174);
+                break;
+            }
+            case 7: {
+                _out = handler.createReply();
+                _out.write_TypeCode(this.type());
+                break;
+            }
+            case 8: {
+                _out = handler.createReply();
+                this.name(_input.read_string());
+                break;
+            }
+            case 9: {
+                _out = handler.createReply();
+                ContainerHelper.write(_out, this.defined_in());
+                break;
+            }
+            case 10: {
+                _out = handler.createReply();
+                String tmpResult175 = this.version();
+                _out.write_string(tmpResult175);
+                break;
+            }
+            case 11: {
+                _out = handler.createReply();
+                _out.write_any(this.value());
+                break;
+            }
+            case 12: {
+                _out = handler.createReply();
+                this.version(_input.read_string());
+                break;
+            }
+            case 13: {
+                _out = handler.createReply();
+                DescriptionHelper.write(_out, this.describe());
+                break;
+            }
+            case 14: {
+                _out = handler.createReply();
+                String tmpResult176 = this.id();
+                _out.write_string(tmpResult176);
+                break;
+            }
+            case 15: {
+                Container _arg0 = ContainerHelper.read(_input);
+                String _arg1 = _input.read_string();
+                String _arg2 = _input.read_string();
+                _out = handler.createReply();
+                this.move(_arg0, _arg1, _arg2);
+                break;
+            }
+            case 16: {
+                _out = handler.createReply();
+                this.destroy();
+                break;
+            }
+            case 17: {
+                _out = handler.createReply();
+                this.id(_input.read_string());
+            }
+        }
+        return _out;
+    }
+
+    @Override
+    public String[] _all_interfaces(POA poa, byte[] obj_id) {
+        return this.ids;
+    }
+
+    static {
+        m_opsHash.put("_set_value", 0);
+        m_opsHash.put("_get_type_def", 1);
+        m_opsHash.put("_get_containing_repository", 2);
+        m_opsHash.put("_get_def_kind", 3);
+        m_opsHash.put("_set_type_def", 4);
+        m_opsHash.put("_get_absolute_name", 5);
+        m_opsHash.put("_get_name", 6);
+        m_opsHash.put("_get_type", 7);
+        m_opsHash.put("_set_name", 8);
+        m_opsHash.put("_get_defined_in", 9);
+        m_opsHash.put("_get_version", 10);
+        m_opsHash.put("_get_value", 11);
+        m_opsHash.put("_set_version", 12);
+        m_opsHash.put("describe", 13);
+        m_opsHash.put("_get_id", 14);
+        m_opsHash.put("move", 15);
+        m_opsHash.put("destroy", 16);
+        m_opsHash.put("_set_id", 17);
+    }
+}
+

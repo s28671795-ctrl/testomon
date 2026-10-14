@@ -1,0 +1,9 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.omg.IOP;
+
+public interface TAG_INET_SEC_TRANS {
+    public static final int value = 123;
+}
+

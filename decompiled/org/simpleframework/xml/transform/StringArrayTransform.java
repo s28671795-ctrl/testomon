@@ -1,0 +1,57 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.simpleframework.xml.transform;
+
+import java.util.regex.Pattern;
+import org.simpleframework.xml.transform.Transform;
+
+class StringArrayTransform
+implements Transform<String[]> {
+    private final Pattern pattern;
+    private final String token;
+
+    public StringArrayTransform() {
+        this(",");
+    }
+
+    public StringArrayTransform(String token) {
+        this.pattern = Pattern.compile(token);
+        this.token = token;
+    }
+
+    @Override
+    public String[] read(String value) {
+        return this.read(value, this.token);
+    }
+
+    private String[] read(String value, String token) {
+        String[] list = this.pattern.split(value);
+        for (int i = 0; i < list.length; ++i) {
+            String text = list[i];
+            if (text == null) continue;
+            list[i] = text.trim();
+        }
+        return list;
+    }
+
+    @Override
+    public String write(String[] list) {
+        return this.write(list, this.token);
+    }
+
+    private String write(String[] list, String token) {
+        StringBuilder text = new StringBuilder();
+        for (int i = 0; i < list.length; ++i) {
+            String item = list[i];
+            if (item == null) continue;
+            if (text.length() > 0) {
+                text.append(token);
+                text.append(' ');
+            }
+            text.append(item);
+        }
+        return text.toString();
+    }
+}
+

@@ -1,0 +1,9 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.omg.RTCORBA;
+
+public interface minPriority {
+    public static final short value = 0;
+}
+

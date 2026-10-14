@@ -1,0 +1,96 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package liquibase.change;
+
+public class ChangeStatus {
+    protected Throwable exception;
+    private String message;
+    private Status status;
+
+    public ChangeStatus assertComplete(boolean complete, String incompleteMessage) {
+        if (complete) {
+            if (this.status == null) {
+                this.status = Status.complete;
+            }
+        } else if (this.status == Status.complete) {
+            this.message = incompleteMessage;
+            this.status = Status.incorrect;
+        } else if (this.status != Status.notApplied && this.status != Status.unknown) {
+            this.message = incompleteMessage;
+            this.status = Status.notApplied;
+        }
+        return this;
+    }
+
+    public ChangeStatus assertCorrect(boolean correct, String incorrectMessage) {
+        if (correct) {
+            if (this.status == null) {
+                this.status = Status.complete;
+            }
+        } else if (this.status == null || this.status == Status.complete) {
+            this.status = Status.incorrect;
+            this.message = incorrectMessage;
+        }
+        return this;
+    }
+
+    public ChangeStatus unknown(String message) {
+        this.status = Status.unknown;
+        this.message = message;
+        return this;
+    }
+
+    public ChangeStatus unknown(Exception exception) {
+        this.exception = exception;
+        return this.unknown(exception.getMessage());
+    }
+
+    public Status getStatus() {
+        if (this.status == null) {
+            return Status.unknown;
+        }
+        return this.status;
+    }
+
+    public String getMessage() {
+        if (this.status == null) {
+            return "No tests done";
+        }
+        if (this.status == Status.complete) {
+            return null;
+        }
+        return this.message;
+    }
+
+    public Throwable getException() {
+        return this.exception;
+    }
+
+    public String toString() {
+        String out = this.getStatus().getName();
+        String message = this.getMessage();
+        if (message != null) {
+            out = out + ": " + message;
+        }
+        return out;
+    }
+
+    public static enum Status {
+        complete("Complete"),
+        incorrect("Incorrect"),
+        notApplied("Not Applied"),
+        unknown("Unknown");
+
+        private final String name;
+
+        private Status(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+    }
+}
+

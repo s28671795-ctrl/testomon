@@ -1,0 +1,572 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package com.google.longrunning;
+
+import com.google.longrunning.OperationInfoOrBuilder;
+import com.google.longrunning.OperationsProto;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+public final class OperationInfo
+extends GeneratedMessageV3
+implements OperationInfoOrBuilder {
+    private static final long serialVersionUID = 0L;
+    public static final int RESPONSE_TYPE_FIELD_NUMBER = 1;
+    private volatile Object responseType_ = "";
+    public static final int METADATA_TYPE_FIELD_NUMBER = 2;
+    private volatile Object metadataType_ = "";
+    private byte memoizedIsInitialized = (byte)-1;
+    private static final OperationInfo DEFAULT_INSTANCE = new OperationInfo();
+    private static final Parser<OperationInfo> PARSER = new AbstractParser<OperationInfo>(){
+
+        @Override
+        public OperationInfo parsePartialFrom(CodedInputStream input, ExtensionRegistryLite extensionRegistry) throws InvalidProtocolBufferException {
+            Builder builder = OperationInfo.newBuilder();
+            try {
+                builder.mergeFrom(input, extensionRegistry);
+            }
+            catch (InvalidProtocolBufferException e) {
+                throw e.setUnfinishedMessage(builder.buildPartial());
+            }
+            catch (UninitializedMessageException e) {
+                throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+            }
+            catch (IOException e) {
+                throw new InvalidProtocolBufferException(e).setUnfinishedMessage(builder.buildPartial());
+            }
+            return builder.buildPartial();
+        }
+    };
+
+    private OperationInfo(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+    }
+
+    private OperationInfo() {
+        this.responseType_ = "";
+        this.metadataType_ = "";
+    }
+
+    @Override
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unused2) {
+        return new OperationInfo();
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return OperationsProto.internal_static_google_longrunning_OperationInfo_descriptor;
+    }
+
+    @Override
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return OperationsProto.internal_static_google_longrunning_OperationInfo_fieldAccessorTable.ensureFieldAccessorsInitialized(OperationInfo.class, Builder.class);
+    }
+
+    @Override
+    public String getResponseType() {
+        Object ref = this.responseType_;
+        if (ref instanceof String) {
+            return (String)ref;
+        }
+        ByteString bs = (ByteString)ref;
+        String s2 = bs.toStringUtf8();
+        this.responseType_ = s2;
+        return s2;
+    }
+
+    @Override
+    public ByteString getResponseTypeBytes() {
+        Object ref = this.responseType_;
+        if (ref instanceof String) {
+            ByteString b = ByteString.copyFromUtf8((String)ref);
+            this.responseType_ = b;
+            return b;
+        }
+        return (ByteString)ref;
+    }
+
+    @Override
+    public String getMetadataType() {
+        Object ref = this.metadataType_;
+        if (ref instanceof String) {
+            return (String)ref;
+        }
+        ByteString bs = (ByteString)ref;
+        String s2 = bs.toStringUtf8();
+        this.metadataType_ = s2;
+        return s2;
+    }
+
+    @Override
+    public ByteString getMetadataTypeBytes() {
+        Object ref = this.metadataType_;
+        if (ref instanceof String) {
+            ByteString b = ByteString.copyFromUtf8((String)ref);
+            this.metadataType_ = b;
+            return b;
+        }
+        return (ByteString)ref;
+    }
+
+    @Override
+    public final boolean isInitialized() {
+        byte isInitialized = this.memoizedIsInitialized;
+        if (isInitialized == 1) {
+            return true;
+        }
+        if (isInitialized == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = 1;
+        return true;
+    }
+
+    @Override
+    public void writeTo(CodedOutputStream output) throws IOException {
+        if (!GeneratedMessageV3.isStringEmpty(this.responseType_)) {
+            GeneratedMessageV3.writeString(output, 1, this.responseType_);
+        }
+        if (!GeneratedMessageV3.isStringEmpty(this.metadataType_)) {
+            GeneratedMessageV3.writeString(output, 2, this.metadataType_);
+        }
+        this.getUnknownFields().writeTo(output);
+    }
+
+    @Override
+    public int getSerializedSize() {
+        int size = this.memoizedSize;
+        if (size != -1) {
+            return size;
+        }
+        size = 0;
+        if (!GeneratedMessageV3.isStringEmpty(this.responseType_)) {
+            size += GeneratedMessageV3.computeStringSize(1, this.responseType_);
+        }
+        if (!GeneratedMessageV3.isStringEmpty(this.metadataType_)) {
+            size += GeneratedMessageV3.computeStringSize(2, this.metadataType_);
+        }
+        this.memoizedSize = size += this.getUnknownFields().getSerializedSize();
+        return size;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof OperationInfo)) {
+            return super.equals(obj);
+        }
+        OperationInfo other = (OperationInfo)obj;
+        if (!this.getResponseType().equals(other.getResponseType())) {
+            return false;
+        }
+        if (!this.getMetadataType().equals(other.getMetadataType())) {
+            return false;
+        }
+        return this.getUnknownFields().equals(other.getUnknownFields());
+    }
+
+    @Override
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int hash = 41;
+        hash = 19 * hash + OperationInfo.getDescriptor().hashCode();
+        hash = 37 * hash + 1;
+        hash = 53 * hash + this.getResponseType().hashCode();
+        hash = 37 * hash + 2;
+        hash = 53 * hash + this.getMetadataType().hashCode();
+        this.memoizedHashCode = hash = 29 * hash + this.getUnknownFields().hashCode();
+        return hash;
+    }
+
+    public static OperationInfo parseFrom(ByteBuffer data) throws InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
+
+    public static OperationInfo parseFrom(ByteBuffer data, ExtensionRegistryLite extensionRegistry) throws InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static OperationInfo parseFrom(ByteString data) throws InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
+
+    public static OperationInfo parseFrom(ByteString data, ExtensionRegistryLite extensionRegistry) throws InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static OperationInfo parseFrom(byte[] data) throws InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
+
+    public static OperationInfo parseFrom(byte[] data, ExtensionRegistryLite extensionRegistry) throws InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static OperationInfo parseFrom(InputStream input) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, input);
+    }
+
+    public static OperationInfo parseFrom(InputStream input, ExtensionRegistryLite extensionRegistry) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static OperationInfo parseDelimitedFrom(InputStream input) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static OperationInfo parseDelimitedFrom(InputStream input, ExtensionRegistryLite extensionRegistry) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static OperationInfo parseFrom(CodedInputStream input) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, input);
+    }
+
+    public static OperationInfo parseFrom(CodedInputStream input, ExtensionRegistryLite extensionRegistry) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @Override
+    public Builder newBuilderForType() {
+        return OperationInfo.newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+    }
+
+    public static Builder newBuilder(OperationInfo prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    @Override
+    public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @Override
+    protected Builder newBuilderForType(GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+    }
+
+    public static OperationInfo getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<OperationInfo> parser() {
+        return PARSER;
+    }
+
+    public Parser<OperationInfo> getParserForType() {
+        return PARSER;
+    }
+
+    @Override
+    public OperationInfo getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static final class Builder
+    extends GeneratedMessageV3.Builder<Builder>
+    implements OperationInfoOrBuilder {
+        private int bitField0_;
+        private Object responseType_ = "";
+        private Object metadataType_ = "";
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return OperationsProto.internal_static_google_longrunning_OperationInfo_descriptor;
+        }
+
+        @Override
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return OperationsProto.internal_static_google_longrunning_OperationInfo_fieldAccessorTable.ensureFieldAccessorsInitialized(OperationInfo.class, Builder.class);
+        }
+
+        private Builder() {
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent parent) {
+            super(parent);
+        }
+
+        @Override
+        public Builder clear() {
+            super.clear();
+            this.bitField0_ = 0;
+            this.responseType_ = "";
+            this.metadataType_ = "";
+            return this;
+        }
+
+        @Override
+        public Descriptors.Descriptor getDescriptorForType() {
+            return OperationsProto.internal_static_google_longrunning_OperationInfo_descriptor;
+        }
+
+        @Override
+        public OperationInfo getDefaultInstanceForType() {
+            return OperationInfo.getDefaultInstance();
+        }
+
+        @Override
+        public OperationInfo build() {
+            OperationInfo result = this.buildPartial();
+            if (!result.isInitialized()) {
+                throw Builder.newUninitializedMessageException(result);
+            }
+            return result;
+        }
+
+        @Override
+        public OperationInfo buildPartial() {
+            OperationInfo result = new OperationInfo(this);
+            if (this.bitField0_ != 0) {
+                this.buildPartial0(result);
+            }
+            this.onBuilt();
+            return result;
+        }
+
+        private void buildPartial0(OperationInfo result) {
+            int from_bitField0_ = this.bitField0_;
+            if ((from_bitField0_ & 1) != 0) {
+                result.responseType_ = this.responseType_;
+            }
+            if ((from_bitField0_ & 2) != 0) {
+                result.metadataType_ = this.metadataType_;
+            }
+        }
+
+        @Override
+        public Builder clone() {
+            return (Builder)super.clone();
+        }
+
+        @Override
+        public Builder setField(Descriptors.FieldDescriptor field2, Object value) {
+            return (Builder)super.setField(field2, value);
+        }
+
+        @Override
+        public Builder clearField(Descriptors.FieldDescriptor field2) {
+            return (Builder)super.clearField(field2);
+        }
+
+        @Override
+        public Builder clearOneof(Descriptors.OneofDescriptor oneof) {
+            return (Builder)super.clearOneof(oneof);
+        }
+
+        @Override
+        public Builder setRepeatedField(Descriptors.FieldDescriptor field2, int index, Object value) {
+            return (Builder)super.setRepeatedField(field2, index, value);
+        }
+
+        @Override
+        public Builder addRepeatedField(Descriptors.FieldDescriptor field2, Object value) {
+            return (Builder)super.addRepeatedField(field2, value);
+        }
+
+        @Override
+        public Builder mergeFrom(Message other) {
+            if (other instanceof OperationInfo) {
+                return this.mergeFrom((OperationInfo)other);
+            }
+            super.mergeFrom(other);
+            return this;
+        }
+
+        public Builder mergeFrom(OperationInfo other) {
+            if (other == OperationInfo.getDefaultInstance()) {
+                return this;
+            }
+            if (!other.getResponseType().isEmpty()) {
+                this.responseType_ = other.responseType_;
+                this.bitField0_ |= 1;
+                this.onChanged();
+            }
+            if (!other.getMetadataType().isEmpty()) {
+                this.metadataType_ = other.metadataType_;
+                this.bitField0_ |= 2;
+                this.onChanged();
+            }
+            this.mergeUnknownFields(other.getUnknownFields());
+            this.onChanged();
+            return this;
+        }
+
+        @Override
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        @Override
+        public Builder mergeFrom(CodedInputStream input, ExtensionRegistryLite extensionRegistry) throws IOException {
+            if (extensionRegistry == null) {
+                throw new NullPointerException();
+            }
+            try {
+                boolean done = false;
+                block10: while (!done) {
+                    int tag = input.readTag();
+                    switch (tag) {
+                        case 0: {
+                            done = true;
+                            continue block10;
+                        }
+                        case 10: {
+                            this.responseType_ = input.readStringRequireUtf8();
+                            this.bitField0_ |= 1;
+                            continue block10;
+                        }
+                        case 18: {
+                            this.metadataType_ = input.readStringRequireUtf8();
+                            this.bitField0_ |= 2;
+                            continue block10;
+                        }
+                    }
+                    if (super.parseUnknownField(input, extensionRegistry, tag)) continue;
+                    done = true;
+                }
+            }
+            catch (InvalidProtocolBufferException e) {
+                throw e.unwrapIOException();
+            }
+            finally {
+                this.onChanged();
+            }
+            return this;
+        }
+
+        @Override
+        public String getResponseType() {
+            Object ref = this.responseType_;
+            if (!(ref instanceof String)) {
+                ByteString bs = (ByteString)ref;
+                String s2 = bs.toStringUtf8();
+                this.responseType_ = s2;
+                return s2;
+            }
+            return (String)ref;
+        }
+
+        @Override
+        public ByteString getResponseTypeBytes() {
+            Object ref = this.responseType_;
+            if (ref instanceof String) {
+                ByteString b = ByteString.copyFromUtf8((String)ref);
+                this.responseType_ = b;
+                return b;
+            }
+            return (ByteString)ref;
+        }
+
+        public Builder setResponseType(String value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+            this.responseType_ = value;
+            this.bitField0_ |= 1;
+            this.onChanged();
+            return this;
+        }
+
+        public Builder clearResponseType() {
+            this.responseType_ = OperationInfo.getDefaultInstance().getResponseType();
+            this.bitField0_ &= 0xFFFFFFFE;
+            this.onChanged();
+            return this;
+        }
+
+        public Builder setResponseTypeBytes(ByteString value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+            OperationInfo.checkByteStringIsUtf8(value);
+            this.responseType_ = value;
+            this.bitField0_ |= 1;
+            this.onChanged();
+            return this;
+        }
+
+        @Override
+        public String getMetadataType() {
+            Object ref = this.metadataType_;
+            if (!(ref instanceof String)) {
+                ByteString bs = (ByteString)ref;
+                String s2 = bs.toStringUtf8();
+                this.metadataType_ = s2;
+                return s2;
+            }
+            return (String)ref;
+        }
+
+        @Override
+        public ByteString getMetadataTypeBytes() {
+            Object ref = this.metadataType_;
+            if (ref instanceof String) {
+                ByteString b = ByteString.copyFromUtf8((String)ref);
+                this.metadataType_ = b;
+                return b;
+            }
+            return (ByteString)ref;
+        }
+
+        public Builder setMetadataType(String value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+            this.metadataType_ = value;
+            this.bitField0_ |= 2;
+            this.onChanged();
+            return this;
+        }
+
+        public Builder clearMetadataType() {
+            this.metadataType_ = OperationInfo.getDefaultInstance().getMetadataType();
+            this.bitField0_ &= 0xFFFFFFFD;
+            this.onChanged();
+            return this;
+        }
+
+        public Builder setMetadataTypeBytes(ByteString value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+            OperationInfo.checkByteStringIsUtf8(value);
+            this.metadataType_ = value;
+            this.bitField0_ |= 2;
+            this.onChanged();
+            return this;
+        }
+
+        @Override
+        public final Builder setUnknownFields(UnknownFieldSet unknownFields) {
+            return (Builder)super.setUnknownFields(unknownFields);
+        }
+
+        @Override
+        public final Builder mergeUnknownFields(UnknownFieldSet unknownFields) {
+            return (Builder)super.mergeUnknownFields(unknownFields);
+        }
+    }
+}
+

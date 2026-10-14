@@ -1,0 +1,248 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.jooq.tools.jdbc;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.jooq.tools.JooqLogger;
+import org.jooq.tools.jdbc.BatchedConnection;
+import org.jooq.tools.jdbc.DefaultPreparedStatement;
+
+public class BatchedPreparedStatement
+extends DefaultPreparedStatement {
+    private static final JooqLogger log = JooqLogger.getLogger(BatchedPreparedStatement.class);
+    final String sql;
+    int batches;
+    boolean executeImmediate;
+    boolean getMoreResults = true;
+
+    public BatchedPreparedStatement(String sql, BatchedConnection connection, PreparedStatement delegate) {
+        super(delegate, connection);
+        this.sql = sql;
+    }
+
+    public BatchedConnection getBatchedConnection() throws SQLException {
+        return (BatchedConnection)super.getConnection();
+    }
+
+    public boolean getExecuteImmediate() {
+        return this.executeImmediate;
+    }
+
+    public void setExecuteImmediate(boolean executeImmediate) {
+        this.executeImmediate = executeImmediate;
+    }
+
+    private void resetBatches() {
+        this.batches = 0;
+    }
+
+    private void resetMoreResults() {
+        this.getMoreResults = true;
+    }
+
+    private void logExecuteImmediate() throws SQLException {
+        if (log.isDebugEnabled()) {
+            log.debug((Object)"BatchedStatement", "Skipped batching statement: " + this.getBatchedConnection().lastSQL);
+        }
+        this.resetMoreResults();
+    }
+
+    private void logBatch() throws SQLException {
+        if (log.isDebugEnabled()) {
+            log.debug((Object)"BatchedStatement", "Batched " + this.batches + " times: " + this.getBatchedConnection().lastSQL);
+        }
+        this.resetMoreResults();
+    }
+
+    private void logExecution() throws SQLException {
+        if (log.isDebugEnabled()) {
+            log.debug((Object)"BatchedStatement", "Executed with " + this.batches + " batched items: " + this.getBatchedConnection().lastSQL);
+        }
+        this.resetMoreResults();
+        this.resetBatches();
+    }
+
+    @Override
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        return (T)(BatchedPreparedStatement.class == iface ? this : super.unwrap(iface));
+    }
+
+    @Override
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return BatchedPreparedStatement.class == iface || super.isWrapperFor(iface);
+    }
+
+    @Override
+    public int executeUpdate() throws SQLException {
+        if (this.executeImmediate) {
+            this.logExecuteImmediate();
+            return super.executeUpdate();
+        }
+        this.addBatch();
+        return 0;
+    }
+
+    @Override
+    public boolean execute() throws SQLException {
+        this.resetMoreResults();
+        if (this.executeImmediate) {
+            this.logExecuteImmediate();
+            return super.execute();
+        }
+        this.addBatch();
+        return false;
+    }
+
+    @Override
+    public int getUpdateCount() throws SQLException {
+        return this.getMoreResults ? 0 : -1;
+    }
+
+    @Override
+    public long executeLargeUpdate() throws SQLException {
+        return this.executeUpdate();
+    }
+
+    @Override
+    public long getLargeUpdateCount() throws SQLException {
+        return this.getUpdateCount();
+    }
+
+    @Override
+    public void close() throws SQLException {
+    }
+
+    @Override
+    public boolean getMoreResults() throws SQLException {
+        this.getMoreResults = false;
+        return false;
+    }
+
+    @Override
+    public boolean getMoreResults(int current) throws SQLException {
+        return this.getMoreResults();
+    }
+
+    @Override
+    public void addBatch() throws SQLException {
+        this.getBatchedConnection().setBatch(this);
+        ++this.batches;
+        this.logBatch();
+        super.addBatch();
+        if (this.batches >= this.getBatchedConnection().batchSize) {
+            this.getBatchedConnection().executeLastBatch();
+            this.batches = 0;
+            super.clearBatch();
+        }
+    }
+
+    @Override
+    public void clearBatch() throws SQLException {
+        throw new UnsupportedOperationException("Clearing a batch is not yet supported");
+    }
+
+    @Override
+    public int[] executeBatch() throws SQLException {
+        this.logExecution();
+        return super.executeBatch();
+    }
+
+    @Override
+    public long[] executeLargeBatch() throws SQLException {
+        this.logExecution();
+        return super.executeLargeBatch();
+    }
+
+    @Override
+    public void addBatch(String s2) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public boolean execute(String s2) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public boolean execute(String s2, int autoGeneratedKeys) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public boolean execute(String s2, int[] columnIndexes) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public boolean execute(String sql, String[] columnNames) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public int executeUpdate(String s2) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public int executeUpdate(String s2, int autoGeneratedKeys) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public int executeUpdate(String s2, int[] columnIndexes) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public int executeUpdate(String s2, String[] columnNames) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public long executeLargeUpdate(String s2) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public long executeLargeUpdate(String s2, int autoGeneratedKeys) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public long executeLargeUpdate(String s2, int[] columnIndexes) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public long executeLargeUpdate(String s2, String[] columnNames) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public ResultSet executeQuery(String s2) throws SQLException {
+        throw new UnsupportedOperationException("No static statement methods can be called");
+    }
+
+    @Override
+    public ResultSet executeQuery() throws SQLException {
+        if (this.batches == 0) {
+            this.logExecuteImmediate();
+            return super.executeQuery();
+        }
+        throw new UnsupportedOperationException("Cannot batch result queries");
+    }
+
+    @Override
+    public ResultSet getResultSet() throws SQLException {
+        throw new UnsupportedOperationException("Cannot batch result queries");
+    }
+
+    @Override
+    public ResultSet getGeneratedKeys() throws SQLException {
+        throw new UnsupportedOperationException("Cannot batch result queries");
+    }
+}
+

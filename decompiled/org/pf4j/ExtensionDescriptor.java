@@ -1,0 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.pf4j;
+
+public class ExtensionDescriptor {
+    public final int ordinal;
+    public final Class<?> extensionClass;
+
+    public ExtensionDescriptor(int ordinal, Class<?> extensionClass) {
+        this.ordinal = ordinal;
+        this.extensionClass = extensionClass;
+    }
+}
+

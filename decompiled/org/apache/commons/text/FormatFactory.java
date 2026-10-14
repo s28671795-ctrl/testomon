@@ -1,0 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.apache.commons.text;
+
+import java.text.Format;
+import java.util.Locale;
+
+@FunctionalInterface
+public interface FormatFactory {
+    public Format getFormat(String var1, String var2, Locale var3);
+}
+

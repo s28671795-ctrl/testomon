@@ -1,0 +1,21 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.apache.commons.io.input;
+
+import java.io.Reader;
+import org.apache.commons.io.input.ClosedReader;
+import org.apache.commons.io.input.ProxyReader;
+
+public class CloseShieldReader
+extends ProxyReader {
+    public CloseShieldReader(Reader in) {
+        super(in);
+    }
+
+    @Override
+    public void close() {
+        this.in = ClosedReader.CLOSED_READER;
+    }
+}
+

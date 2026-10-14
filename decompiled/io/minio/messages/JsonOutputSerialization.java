@@ -1,0 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+ */
+package io.minio.messages;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
+@Root(name="JSON")
+@SuppressFBWarnings(value={"URF_UNREAD_FIELD"})
+public class JsonOutputSerialization {
+    @Element(name="RecordDelimiter", required=false)
+    private Character recordDelimiter;
+
+    public JsonOutputSerialization(Character recordDelimiter) {
+        this.recordDelimiter = recordDelimiter;
+    }
+}
+

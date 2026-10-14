@@ -1,0 +1,22 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package com.hierynomus.asn1.util;
+
+public class Checks {
+    private Checks() {
+    }
+
+    public static void checkState(boolean state, String messageFormat, Object ... args2) {
+        if (!state) {
+            throw new IllegalStateException(String.format(messageFormat, args2));
+        }
+    }
+
+    public static void checkArgument(boolean bool, String messageFormat, Object ... args2) {
+        if (!bool) {
+            throw new IllegalArgumentException(String.format(messageFormat, args2));
+        }
+    }
+}
+

@@ -1,0 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.jooq;
+
+import org.jetbrains.annotations.NotNull;
+
+public enum Nullability {
+    NULL,
+    NOT_NULL,
+    DEFAULT;
+
+
+    @NotNull
+    public static Nullability of(boolean nullability) {
+        return nullability ? NULL : NOT_NULL;
+    }
+
+    public boolean nullable() {
+        return this != NOT_NULL;
+    }
+}
+

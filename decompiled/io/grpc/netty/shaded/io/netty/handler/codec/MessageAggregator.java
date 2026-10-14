@@ -1,0 +1,280 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package io.grpc.netty.shaded.io.netty.handler.codec;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder;
+import io.grpc.netty.shaded.io.netty.buffer.CompositeByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFuture;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFutureListener;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPipeline;
+import io.grpc.netty.shaded.io.netty.handler.codec.DecoderResult;
+import io.grpc.netty.shaded.io.netty.handler.codec.DecoderResultProvider;
+import io.grpc.netty.shaded.io.netty.handler.codec.MessageAggregationException;
+import io.grpc.netty.shaded.io.netty.handler.codec.MessageToMessageDecoder;
+import io.grpc.netty.shaded.io.netty.handler.codec.PrematureChannelClosureException;
+import io.grpc.netty.shaded.io.netty.handler.codec.TooLongFrameException;
+import io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import java.util.List;
+
+public abstract class MessageAggregator<I, S, C extends ByteBufHolder, O extends ByteBufHolder>
+extends MessageToMessageDecoder<I> {
+    private static final int DEFAULT_MAX_COMPOSITEBUFFER_COMPONENTS = 1024;
+    private final int maxContentLength;
+    private O currentMessage;
+    private boolean handlingOversizedMessage;
+    private int maxCumulationBufferComponents = 1024;
+    private ChannelHandlerContext ctx;
+    private ChannelFutureListener continueResponseWriteListener;
+    private boolean aggregating;
+    private boolean handleIncompleteAggregateDuringClose = true;
+
+    protected MessageAggregator(int maxContentLength) {
+        MessageAggregator.validateMaxContentLength(maxContentLength);
+        this.maxContentLength = maxContentLength;
+    }
+
+    protected MessageAggregator(int maxContentLength, Class<? extends I> inboundMessageType) {
+        super(inboundMessageType);
+        MessageAggregator.validateMaxContentLength(maxContentLength);
+        this.maxContentLength = maxContentLength;
+    }
+
+    private static void validateMaxContentLength(int maxContentLength) {
+        ObjectUtil.checkPositiveOrZero(maxContentLength, "maxContentLength");
+    }
+
+    @Override
+    public boolean acceptInboundMessage(Object msg) throws Exception {
+        if (!super.acceptInboundMessage(msg)) {
+            return false;
+        }
+        Object in = msg;
+        if (this.isAggregated(in)) {
+            return false;
+        }
+        if (this.isStartMessage(in)) {
+            return true;
+        }
+        return this.aggregating && this.isContentMessage(in);
+    }
+
+    protected abstract boolean isStartMessage(I var1) throws Exception;
+
+    protected abstract boolean isContentMessage(I var1) throws Exception;
+
+    protected abstract boolean isLastContentMessage(C var1) throws Exception;
+
+    protected abstract boolean isAggregated(I var1) throws Exception;
+
+    public final int maxContentLength() {
+        return this.maxContentLength;
+    }
+
+    public final int maxCumulationBufferComponents() {
+        return this.maxCumulationBufferComponents;
+    }
+
+    public final void setMaxCumulationBufferComponents(int maxCumulationBufferComponents) {
+        if (maxCumulationBufferComponents < 2) {
+            throw new IllegalArgumentException("maxCumulationBufferComponents: " + maxCumulationBufferComponents + " (expected: >= 2)");
+        }
+        if (this.ctx != null) {
+            throw new IllegalStateException("decoder properties cannot be changed once the decoder is added to a pipeline.");
+        }
+        this.maxCumulationBufferComponents = maxCumulationBufferComponents;
+    }
+
+    @Deprecated
+    public final boolean isHandlingOversizedMessage() {
+        return this.handlingOversizedMessage;
+    }
+
+    protected final ChannelHandlerContext ctx() {
+        if (this.ctx == null) {
+            throw new IllegalStateException("not added to a pipeline yet");
+        }
+        return this.ctx;
+    }
+
+    @Override
+    protected void decode(final ChannelHandlerContext ctx, I msg, List<Object> out) throws Exception {
+        if (this.isStartMessage(msg)) {
+            this.aggregating = true;
+            this.handlingOversizedMessage = false;
+            if (this.currentMessage != null) {
+                this.currentMessage.release();
+                this.currentMessage = null;
+                throw new MessageAggregationException();
+            }
+            I m4 = msg;
+            Object continueResponse = this.newContinueResponse(m4, this.maxContentLength, ctx.pipeline());
+            if (continueResponse != null) {
+                ChannelFutureListener listener = this.continueResponseWriteListener;
+                if (listener == null) {
+                    this.continueResponseWriteListener = listener = new ChannelFutureListener(){
+
+                        @Override
+                        public void operationComplete(ChannelFuture future) throws Exception {
+                            if (!future.isSuccess()) {
+                                ctx.fireExceptionCaught(future.cause());
+                            }
+                        }
+                    };
+                }
+                boolean closeAfterWrite = this.closeAfterContinueResponse(continueResponse);
+                this.handlingOversizedMessage = this.ignoreContentAfterContinueResponse(continueResponse);
+                ChannelFuture future = ctx.writeAndFlush(continueResponse).addListener(listener);
+                if (closeAfterWrite) {
+                    this.handleIncompleteAggregateDuringClose = false;
+                    future.addListener(ChannelFutureListener.CLOSE);
+                    return;
+                }
+                if (this.handlingOversizedMessage) {
+                    return;
+                }
+            } else if (this.isContentLengthInvalid(m4, this.maxContentLength)) {
+                this.invokeHandleOversizedMessage(ctx, m4);
+                return;
+            }
+            if (m4 instanceof DecoderResultProvider && !((DecoderResultProvider)m4).decoderResult().isSuccess()) {
+                O aggregated = m4 instanceof ByteBufHolder ? this.beginAggregation(m4, ((ByteBufHolder)m4).content().retain()) : this.beginAggregation(m4, Unpooled.EMPTY_BUFFER);
+                this.finishAggregation0(aggregated);
+                out.add(aggregated);
+                return;
+            }
+            CompositeByteBuf content = ctx.alloc().compositeBuffer(this.maxCumulationBufferComponents);
+            if (m4 instanceof ByteBufHolder) {
+                MessageAggregator.appendPartialContent(content, ((ByteBufHolder)m4).content());
+            }
+            this.currentMessage = this.beginAggregation(m4, content);
+        } else if (this.isContentMessage(msg)) {
+            boolean last;
+            if (this.currentMessage == null) {
+                return;
+            }
+            CompositeByteBuf content = (CompositeByteBuf)this.currentMessage.content();
+            ByteBufHolder m5 = (ByteBufHolder)msg;
+            if (content.readableBytes() > this.maxContentLength - m5.content().readableBytes()) {
+                O s2 = this.currentMessage;
+                this.invokeHandleOversizedMessage(ctx, s2);
+                return;
+            }
+            MessageAggregator.appendPartialContent(content, m5.content());
+            this.aggregate(this.currentMessage, m5);
+            if (m5 instanceof DecoderResultProvider) {
+                DecoderResult decoderResult = ((DecoderResultProvider)((Object)m5)).decoderResult();
+                if (!decoderResult.isSuccess()) {
+                    if (this.currentMessage instanceof DecoderResultProvider) {
+                        ((DecoderResultProvider)this.currentMessage).setDecoderResult(DecoderResult.failure(decoderResult.cause()));
+                    }
+                    last = true;
+                } else {
+                    last = this.isLastContentMessage(m5);
+                }
+            } else {
+                last = this.isLastContentMessage(m5);
+            }
+            if (last) {
+                this.finishAggregation0(this.currentMessage);
+                out.add(this.currentMessage);
+                this.currentMessage = null;
+            }
+        } else {
+            throw new MessageAggregationException();
+        }
+    }
+
+    private static void appendPartialContent(CompositeByteBuf content, ByteBuf partialContent) {
+        if (partialContent.isReadable()) {
+            content.addComponent(true, partialContent.retain());
+        }
+    }
+
+    protected abstract boolean isContentLengthInvalid(S var1, int var2) throws Exception;
+
+    protected abstract Object newContinueResponse(S var1, int var2, ChannelPipeline var3) throws Exception;
+
+    protected abstract boolean closeAfterContinueResponse(Object var1) throws Exception;
+
+    protected abstract boolean ignoreContentAfterContinueResponse(Object var1) throws Exception;
+
+    protected abstract O beginAggregation(S var1, ByteBuf var2) throws Exception;
+
+    protected void aggregate(O aggregated, C content) throws Exception {
+    }
+
+    private void finishAggregation0(O aggregated) throws Exception {
+        this.aggregating = false;
+        this.finishAggregation(aggregated);
+    }
+
+    protected void finishAggregation(O aggregated) throws Exception {
+    }
+
+    private void invokeHandleOversizedMessage(ChannelHandlerContext ctx, S oversized) throws Exception {
+        this.handlingOversizedMessage = true;
+        this.currentMessage = null;
+        this.handleIncompleteAggregateDuringClose = false;
+        try {
+            this.handleOversizedMessage(ctx, oversized);
+        }
+        finally {
+            ReferenceCountUtil.release(oversized);
+        }
+    }
+
+    protected void handleOversizedMessage(ChannelHandlerContext ctx, S oversized) throws Exception {
+        ctx.fireExceptionCaught(new TooLongFrameException("content length exceeded " + this.maxContentLength() + " bytes."));
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        if (this.currentMessage != null && !ctx.channel().config().isAutoRead()) {
+            ctx.read();
+        }
+        ctx.fireChannelReadComplete();
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        if (this.aggregating && this.handleIncompleteAggregateDuringClose) {
+            ctx.fireExceptionCaught(new PrematureChannelClosureException("Channel closed while still aggregating message"));
+        }
+        try {
+            super.channelInactive(ctx);
+        }
+        finally {
+            this.releaseCurrentMessage();
+        }
+    }
+
+    @Override
+    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        this.ctx = ctx;
+    }
+
+    @Override
+    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
+        try {
+            super.handlerRemoved(ctx);
+        }
+        finally {
+            this.releaseCurrentMessage();
+        }
+    }
+
+    private void releaseCurrentMessage() {
+        if (this.currentMessage != null) {
+            this.currentMessage.release();
+            this.currentMessage = null;
+            this.handlingOversizedMessage = false;
+            this.aggregating = false;
+        }
+    }
+}
+

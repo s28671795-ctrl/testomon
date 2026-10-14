@@ -1,0 +1,10 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+@XmlSchema(namespace="http://schemas.xmlsoap.org/ws/2005/04/discovery", elementFormDefault=XmlNsForm.QUALIFIED)
+package org.xmlsoap.schemas.ws._2005._04.discovery;
+
+import javax.xml.bind.annotation.XmlNsForm;
+import javax.xml.bind.annotation.XmlSchema;
+
+

@@ -1,0 +1,63 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.onvif.ver10.schema;
+
+import java.util.HashMap;
+import java.util.Map;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.namespace.QName;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.cxf.xjc.runtime.JAXBToStringStyle;
+import org.onvif.ver10.schema.OSDPosConfigurationExtension;
+import org.onvif.ver10.schema.Vector;
+
+@XmlAccessorType(value=XmlAccessType.FIELD)
+@XmlType(name="OSDPosConfiguration", propOrder={"type", "pos", "extension"})
+public class OSDPosConfiguration {
+    @XmlElement(name="Type", required=true)
+    protected String type;
+    @XmlElement(name="Pos")
+    protected Vector pos;
+    @XmlElement(name="Extension")
+    protected OSDPosConfigurationExtension extension;
+    @XmlAnyAttribute
+    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String value) {
+        this.type = value;
+    }
+
+    public Vector getPos() {
+        return this.pos;
+    }
+
+    public void setPos(Vector value) {
+        this.pos = value;
+    }
+
+    public OSDPosConfigurationExtension getExtension() {
+        return this.extension;
+    }
+
+    public void setExtension(OSDPosConfigurationExtension value) {
+        this.extension = value;
+    }
+
+    public Map<QName, String> getOtherAttributes() {
+        return this.otherAttributes;
+    }
+
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, JAXBToStringStyle.DEFAULT_STYLE);
+    }
+}
+

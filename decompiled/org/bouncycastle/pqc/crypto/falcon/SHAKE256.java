@@ -1,0 +1,447 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.bouncycastle.pqc.crypto.falcon;
+
+class SHAKE256 {
+    long[] A;
+    byte[] dbuf;
+    long dptr = 0L;
+    private long[] RC = new long[]{1L, 32898L, -9223372036854742902L, -9223372034707259392L, 32907L, 0x80000001L, -9223372034707259263L, -9223372036854743031L, 138L, 136L, 0x80008009L, 0x8000000AL, 0x8000808BL, -9223372036854775669L, -9223372036854742903L, -9223372036854743037L, -9223372036854743038L, -9223372036854775680L, 32778L, -9223372034707292150L, -9223372034707259263L, -9223372036854742912L, 0x80000001L, -9223372034707259384L};
+
+    SHAKE256() {
+        this.A = new long[25];
+        this.dbuf = new byte[200];
+    }
+
+    void process_block(long[] lArray) {
+        lArray[1] = lArray[1] ^ 0xFFFFFFFFFFFFFFFFL;
+        lArray[2] = lArray[2] ^ 0xFFFFFFFFFFFFFFFFL;
+        lArray[8] = lArray[8] ^ 0xFFFFFFFFFFFFFFFFL;
+        lArray[12] = lArray[12] ^ 0xFFFFFFFFFFFFFFFFL;
+        lArray[17] = lArray[17] ^ 0xFFFFFFFFFFFFFFFFL;
+        lArray[20] = lArray[20] ^ 0xFFFFFFFFFFFFFFFFL;
+        for (int i = 0; i < 24; i += 2) {
+            long l = lArray[1] ^ lArray[6];
+            long l2 = lArray[11] ^ lArray[16];
+            l ^= lArray[21] ^ l2;
+            l = l << 1 | l >>> 63;
+            long l3 = lArray[4] ^ lArray[9];
+            long l4 = lArray[14] ^ lArray[19];
+            long l5 = (l ^= lArray[24]) ^ (l3 ^= l4);
+            l = lArray[2] ^ lArray[7];
+            l2 = lArray[12] ^ lArray[17];
+            l ^= lArray[22] ^ l2;
+            l = l << 1 | l >>> 63;
+            l3 = lArray[0] ^ lArray[5];
+            l4 = lArray[10] ^ lArray[15];
+            long l6 = (l ^= lArray[20]) ^ (l3 ^= l4);
+            l = lArray[3] ^ lArray[8];
+            l2 = lArray[13] ^ lArray[18];
+            l ^= lArray[23] ^ l2;
+            l = l << 1 | l >>> 63;
+            l3 = lArray[1] ^ lArray[6];
+            l4 = lArray[11] ^ lArray[16];
+            long l7 = (l ^= lArray[21]) ^ (l3 ^= l4);
+            l = lArray[4] ^ lArray[9];
+            l2 = lArray[14] ^ lArray[19];
+            l ^= lArray[24] ^ l2;
+            l = l << 1 | l >>> 63;
+            l3 = lArray[2] ^ lArray[7];
+            l4 = lArray[12] ^ lArray[17];
+            long l8 = (l ^= lArray[22]) ^ (l3 ^= l4);
+            l = lArray[0] ^ lArray[5];
+            l2 = lArray[10] ^ lArray[15];
+            l ^= lArray[20] ^ l2;
+            l = l << 1 | l >>> 63;
+            l3 = lArray[3] ^ lArray[8];
+            l4 = lArray[13] ^ lArray[18];
+            long l9 = (l ^= lArray[23]) ^ (l3 ^= l4);
+            lArray[0] = lArray[0] ^ l5;
+            lArray[5] = lArray[5] ^ l5;
+            lArray[10] = lArray[10] ^ l5;
+            lArray[15] = lArray[15] ^ l5;
+            lArray[20] = lArray[20] ^ l5;
+            lArray[1] = lArray[1] ^ l6;
+            lArray[6] = lArray[6] ^ l6;
+            lArray[11] = lArray[11] ^ l6;
+            lArray[16] = lArray[16] ^ l6;
+            lArray[21] = lArray[21] ^ l6;
+            lArray[2] = lArray[2] ^ l7;
+            lArray[7] = lArray[7] ^ l7;
+            lArray[12] = lArray[12] ^ l7;
+            lArray[17] = lArray[17] ^ l7;
+            lArray[22] = lArray[22] ^ l7;
+            lArray[3] = lArray[3] ^ l8;
+            lArray[8] = lArray[8] ^ l8;
+            lArray[13] = lArray[13] ^ l8;
+            lArray[18] = lArray[18] ^ l8;
+            lArray[23] = lArray[23] ^ l8;
+            lArray[4] = lArray[4] ^ l9;
+            lArray[9] = lArray[9] ^ l9;
+            lArray[14] = lArray[14] ^ l9;
+            lArray[19] = lArray[19] ^ l9;
+            lArray[24] = lArray[24] ^ l9;
+            lArray[5] = lArray[5] << 36 | lArray[5] >>> 28;
+            lArray[10] = lArray[10] << 3 | lArray[10] >>> 61;
+            lArray[15] = lArray[15] << 41 | lArray[15] >>> 23;
+            lArray[20] = lArray[20] << 18 | lArray[20] >>> 46;
+            lArray[1] = lArray[1] << 1 | lArray[1] >>> 63;
+            lArray[6] = lArray[6] << 44 | lArray[6] >>> 20;
+            lArray[11] = lArray[11] << 10 | lArray[11] >>> 54;
+            lArray[16] = lArray[16] << 45 | lArray[16] >>> 19;
+            lArray[21] = lArray[21] << 2 | lArray[21] >>> 62;
+            lArray[2] = lArray[2] << 62 | lArray[2] >>> 2;
+            lArray[7] = lArray[7] << 6 | lArray[7] >>> 58;
+            lArray[12] = lArray[12] << 43 | lArray[12] >>> 21;
+            lArray[17] = lArray[17] << 15 | lArray[17] >>> 49;
+            lArray[22] = lArray[22] << 61 | lArray[22] >>> 3;
+            lArray[3] = lArray[3] << 28 | lArray[3] >>> 36;
+            lArray[8] = lArray[8] << 55 | lArray[8] >>> 9;
+            lArray[13] = lArray[13] << 25 | lArray[13] >>> 39;
+            lArray[18] = lArray[18] << 21 | lArray[18] >>> 43;
+            lArray[23] = lArray[23] << 56 | lArray[23] >>> 8;
+            lArray[4] = lArray[4] << 27 | lArray[4] >>> 37;
+            lArray[9] = lArray[9] << 20 | lArray[9] >>> 44;
+            lArray[14] = lArray[14] << 39 | lArray[14] >>> 25;
+            lArray[19] = lArray[19] << 8 | lArray[19] >>> 56;
+            lArray[24] = lArray[24] << 14 | lArray[24] >>> 50;
+            long l10 = lArray[12] ^ 0xFFFFFFFFFFFFFFFFL;
+            long l11 = lArray[6] | lArray[12];
+            long l12 = lArray[0] ^ l11;
+            l11 = l10 | lArray[18];
+            long l13 = lArray[6] ^ l11;
+            l11 = lArray[18] & lArray[24];
+            long l14 = lArray[12] ^ l11;
+            l11 = lArray[24] | lArray[0];
+            long l15 = lArray[18] ^ l11;
+            l11 = lArray[0] & lArray[6];
+            long l16 = lArray[24] ^ l11;
+            lArray[0] = l12;
+            lArray[6] = l13;
+            lArray[12] = l14;
+            lArray[18] = l15;
+            lArray[24] = l16;
+            l10 = lArray[22] ^ 0xFFFFFFFFFFFFFFFFL;
+            l11 = lArray[9] | lArray[10];
+            l12 = lArray[3] ^ l11;
+            l11 = lArray[10] & lArray[16];
+            l13 = lArray[9] ^ l11;
+            l11 = lArray[16] | l10;
+            l14 = lArray[10] ^ l11;
+            l11 = lArray[22] | lArray[3];
+            l15 = lArray[16] ^ l11;
+            l11 = lArray[3] & lArray[9];
+            l16 = lArray[22] ^ l11;
+            lArray[3] = l12;
+            lArray[9] = l13;
+            lArray[10] = l14;
+            lArray[16] = l15;
+            lArray[22] = l16;
+            l10 = lArray[19] ^ 0xFFFFFFFFFFFFFFFFL;
+            l11 = lArray[7] | lArray[13];
+            l12 = lArray[1] ^ l11;
+            l11 = lArray[13] & lArray[19];
+            l13 = lArray[7] ^ l11;
+            l11 = l10 & lArray[20];
+            l14 = lArray[13] ^ l11;
+            l11 = lArray[20] | lArray[1];
+            l15 = l10 ^ l11;
+            l11 = lArray[1] & lArray[7];
+            l16 = lArray[20] ^ l11;
+            lArray[1] = l12;
+            lArray[7] = l13;
+            lArray[13] = l14;
+            lArray[19] = l15;
+            lArray[20] = l16;
+            l10 = lArray[17] ^ 0xFFFFFFFFFFFFFFFFL;
+            l11 = lArray[5] & lArray[11];
+            l12 = lArray[4] ^ l11;
+            l11 = lArray[11] | lArray[17];
+            l13 = lArray[5] ^ l11;
+            l11 = l10 | lArray[23];
+            l14 = lArray[11] ^ l11;
+            l11 = lArray[23] & lArray[4];
+            l15 = l10 ^ l11;
+            l11 = lArray[4] | lArray[5];
+            l16 = lArray[23] ^ l11;
+            lArray[4] = l12;
+            lArray[5] = l13;
+            lArray[11] = l14;
+            lArray[17] = l15;
+            lArray[23] = l16;
+            l10 = lArray[8] ^ 0xFFFFFFFFFFFFFFFFL;
+            l11 = l10 & lArray[14];
+            l12 = lArray[2] ^ l11;
+            l11 = lArray[14] | lArray[15];
+            l13 = l10 ^ l11;
+            l11 = lArray[15] & lArray[21];
+            l14 = lArray[14] ^ l11;
+            l11 = lArray[21] | lArray[2];
+            l15 = lArray[15] ^ l11;
+            l11 = lArray[2] & lArray[8];
+            l16 = lArray[21] ^ l11;
+            lArray[2] = l12;
+            lArray[8] = l13;
+            lArray[14] = l14;
+            lArray[15] = l15;
+            lArray[21] = l16;
+            lArray[0] = lArray[0] ^ this.RC[i + 0];
+            l = lArray[6] ^ lArray[9];
+            l2 = lArray[7] ^ lArray[5];
+            l ^= lArray[8] ^ l2;
+            l = l << 1 | l >>> 63;
+            l3 = lArray[24] ^ lArray[22];
+            l4 = lArray[20] ^ lArray[23];
+            l5 = (l ^= lArray[21]) ^ (l3 ^= l4);
+            l = lArray[12] ^ lArray[10];
+            l2 = lArray[13] ^ lArray[11];
+            l ^= lArray[14] ^ l2;
+            l = l << 1 | l >>> 63;
+            l3 = lArray[0] ^ lArray[3];
+            l4 = lArray[1] ^ lArray[4];
+            l6 = (l ^= lArray[2]) ^ (l3 ^= l4);
+            l = lArray[18] ^ lArray[16];
+            l2 = lArray[19] ^ lArray[17];
+            l ^= lArray[15] ^ l2;
+            l = l << 1 | l >>> 63;
+            l3 = lArray[6] ^ lArray[9];
+            l4 = lArray[7] ^ lArray[5];
+            l7 = (l ^= lArray[8]) ^ (l3 ^= l4);
+            l = lArray[24] ^ lArray[22];
+            l2 = lArray[20] ^ lArray[23];
+            l ^= lArray[21] ^ l2;
+            l = l << 1 | l >>> 63;
+            l3 = lArray[12] ^ lArray[10];
+            l4 = lArray[13] ^ lArray[11];
+            l8 = (l ^= lArray[14]) ^ (l3 ^= l4);
+            l = lArray[0] ^ lArray[3];
+            l2 = lArray[1] ^ lArray[4];
+            l ^= lArray[2] ^ l2;
+            l = l << 1 | l >>> 63;
+            l3 = lArray[18] ^ lArray[16];
+            l4 = lArray[19] ^ lArray[17];
+            l9 = (l ^= lArray[15]) ^ (l3 ^= l4);
+            lArray[0] = lArray[0] ^ l5;
+            lArray[3] = lArray[3] ^ l5;
+            lArray[1] = lArray[1] ^ l5;
+            lArray[4] = lArray[4] ^ l5;
+            lArray[2] = lArray[2] ^ l5;
+            lArray[6] = lArray[6] ^ l6;
+            lArray[9] = lArray[9] ^ l6;
+            lArray[7] = lArray[7] ^ l6;
+            lArray[5] = lArray[5] ^ l6;
+            lArray[8] = lArray[8] ^ l6;
+            lArray[12] = lArray[12] ^ l7;
+            lArray[10] = lArray[10] ^ l7;
+            lArray[13] = lArray[13] ^ l7;
+            lArray[11] = lArray[11] ^ l7;
+            lArray[14] = lArray[14] ^ l7;
+            lArray[18] = lArray[18] ^ l8;
+            lArray[16] = lArray[16] ^ l8;
+            lArray[19] = lArray[19] ^ l8;
+            lArray[17] = lArray[17] ^ l8;
+            lArray[15] = lArray[15] ^ l8;
+            lArray[24] = lArray[24] ^ l9;
+            lArray[22] = lArray[22] ^ l9;
+            lArray[20] = lArray[20] ^ l9;
+            lArray[23] = lArray[23] ^ l9;
+            lArray[21] = lArray[21] ^ l9;
+            lArray[3] = lArray[3] << 36 | lArray[3] >>> 28;
+            lArray[1] = lArray[1] << 3 | lArray[1] >>> 61;
+            lArray[4] = lArray[4] << 41 | lArray[4] >>> 23;
+            lArray[2] = lArray[2] << 18 | lArray[2] >>> 46;
+            lArray[6] = lArray[6] << 1 | lArray[6] >>> 63;
+            lArray[9] = lArray[9] << 44 | lArray[9] >>> 20;
+            lArray[7] = lArray[7] << 10 | lArray[7] >>> 54;
+            lArray[5] = lArray[5] << 45 | lArray[5] >>> 19;
+            lArray[8] = lArray[8] << 2 | lArray[8] >>> 62;
+            lArray[12] = lArray[12] << 62 | lArray[12] >>> 2;
+            lArray[10] = lArray[10] << 6 | lArray[10] >>> 58;
+            lArray[13] = lArray[13] << 43 | lArray[13] >>> 21;
+            lArray[11] = lArray[11] << 15 | lArray[11] >>> 49;
+            lArray[14] = lArray[14] << 61 | lArray[14] >>> 3;
+            lArray[18] = lArray[18] << 28 | lArray[18] >>> 36;
+            lArray[16] = lArray[16] << 55 | lArray[16] >>> 9;
+            lArray[19] = lArray[19] << 25 | lArray[19] >>> 39;
+            lArray[17] = lArray[17] << 21 | lArray[17] >>> 43;
+            lArray[15] = lArray[15] << 56 | lArray[15] >>> 8;
+            lArray[24] = lArray[24] << 27 | lArray[24] >>> 37;
+            lArray[22] = lArray[22] << 20 | lArray[22] >>> 44;
+            lArray[20] = lArray[20] << 39 | lArray[20] >>> 25;
+            lArray[23] = lArray[23] << 8 | lArray[23] >>> 56;
+            lArray[21] = lArray[21] << 14 | lArray[21] >>> 50;
+            l10 = lArray[13] ^ 0xFFFFFFFFFFFFFFFFL;
+            l11 = lArray[9] | lArray[13];
+            l12 = lArray[0] ^ l11;
+            l11 = l10 | lArray[17];
+            l13 = lArray[9] ^ l11;
+            l11 = lArray[17] & lArray[21];
+            l14 = lArray[13] ^ l11;
+            l11 = lArray[21] | lArray[0];
+            l15 = lArray[17] ^ l11;
+            l11 = lArray[0] & lArray[9];
+            l16 = lArray[21] ^ l11;
+            lArray[0] = l12;
+            lArray[9] = l13;
+            lArray[13] = l14;
+            lArray[17] = l15;
+            lArray[21] = l16;
+            l10 = lArray[14] ^ 0xFFFFFFFFFFFFFFFFL;
+            l11 = lArray[22] | lArray[1];
+            l12 = lArray[18] ^ l11;
+            l11 = lArray[1] & lArray[5];
+            l13 = lArray[22] ^ l11;
+            l11 = lArray[5] | l10;
+            l14 = lArray[1] ^ l11;
+            l11 = lArray[14] | lArray[18];
+            l15 = lArray[5] ^ l11;
+            l11 = lArray[18] & lArray[22];
+            l16 = lArray[14] ^ l11;
+            lArray[18] = l12;
+            lArray[22] = l13;
+            lArray[1] = l14;
+            lArray[5] = l15;
+            lArray[14] = l16;
+            l10 = lArray[23] ^ 0xFFFFFFFFFFFFFFFFL;
+            l11 = lArray[10] | lArray[19];
+            l12 = lArray[6] ^ l11;
+            l11 = lArray[19] & lArray[23];
+            l13 = lArray[10] ^ l11;
+            l11 = l10 & lArray[2];
+            l14 = lArray[19] ^ l11;
+            l11 = lArray[2] | lArray[6];
+            l15 = l10 ^ l11;
+            l11 = lArray[6] & lArray[10];
+            l16 = lArray[2] ^ l11;
+            lArray[6] = l12;
+            lArray[10] = l13;
+            lArray[19] = l14;
+            lArray[23] = l15;
+            lArray[2] = l16;
+            l10 = lArray[11] ^ 0xFFFFFFFFFFFFFFFFL;
+            l11 = lArray[3] & lArray[7];
+            l12 = lArray[24] ^ l11;
+            l11 = lArray[7] | lArray[11];
+            l13 = lArray[3] ^ l11;
+            l11 = l10 | lArray[15];
+            l14 = lArray[7] ^ l11;
+            l11 = lArray[15] & lArray[24];
+            l15 = l10 ^ l11;
+            l11 = lArray[24] | lArray[3];
+            l16 = lArray[15] ^ l11;
+            lArray[24] = l12;
+            lArray[3] = l13;
+            lArray[7] = l14;
+            lArray[11] = l15;
+            lArray[15] = l16;
+            l10 = lArray[16] ^ 0xFFFFFFFFFFFFFFFFL;
+            l11 = l10 & lArray[20];
+            l12 = lArray[12] ^ l11;
+            l11 = lArray[20] | lArray[4];
+            l13 = l10 ^ l11;
+            l11 = lArray[4] & lArray[8];
+            l14 = lArray[20] ^ l11;
+            l11 = lArray[8] | lArray[12];
+            l15 = lArray[4] ^ l11;
+            l11 = lArray[12] & lArray[16];
+            l16 = lArray[8] ^ l11;
+            lArray[12] = l12;
+            lArray[16] = l13;
+            lArray[20] = l14;
+            lArray[4] = l15;
+            lArray[8] = l16;
+            lArray[0] = lArray[0] ^ this.RC[i + 1];
+            long l17 = lArray[5];
+            lArray[5] = lArray[18];
+            lArray[18] = lArray[11];
+            lArray[11] = lArray[10];
+            lArray[10] = lArray[6];
+            lArray[6] = lArray[22];
+            lArray[22] = lArray[20];
+            lArray[20] = lArray[12];
+            lArray[12] = lArray[19];
+            lArray[19] = lArray[15];
+            lArray[15] = lArray[24];
+            lArray[24] = lArray[8];
+            lArray[8] = l17;
+            l17 = lArray[1];
+            lArray[1] = lArray[9];
+            lArray[9] = lArray[14];
+            lArray[14] = lArray[2];
+            lArray[2] = lArray[13];
+            lArray[13] = lArray[23];
+            lArray[23] = lArray[4];
+            lArray[4] = lArray[21];
+            lArray[21] = lArray[16];
+            lArray[16] = lArray[3];
+            lArray[3] = lArray[17];
+            lArray[17] = lArray[7];
+            lArray[7] = l17;
+        }
+        lArray[1] = lArray[1] ^ 0xFFFFFFFFFFFFFFFFL;
+        lArray[2] = lArray[2] ^ 0xFFFFFFFFFFFFFFFFL;
+        lArray[8] = lArray[8] ^ 0xFFFFFFFFFFFFFFFFL;
+        lArray[12] = lArray[12] ^ 0xFFFFFFFFFFFFFFFFL;
+        lArray[17] = lArray[17] ^ 0xFFFFFFFFFFFFFFFFL;
+        lArray[20] = lArray[20] ^ 0xFFFFFFFFFFFFFFFFL;
+    }
+
+    void inner_shake256_init() {
+        this.dptr = 0L;
+        for (int i = 0; i < this.A.length; ++i) {
+            this.A[i] = 0L;
+        }
+    }
+
+    void inner_shake256_inject(byte[] byArray, int n, int n2) {
+        long l = this.dptr;
+        while (n2 > 0) {
+            long l2 = 136L - l;
+            if (l2 > (long)n2) {
+                l2 = n2;
+            }
+            for (long i = 0L; i < l2; ++i) {
+                long l3 = i + l;
+                int n3 = (int)(l3 >> 3);
+                this.A[n3] = this.A[n3] ^ ((long)byArray[n + (int)i] & 0xFFL) << (int)((l3 & 7L) << 3);
+            }
+            n = (int)((long)n + l2);
+            n2 = (int)((long)n2 - l2);
+            if ((l += l2) != 136L) continue;
+            this.process_block(this.A);
+            l = 0L;
+        }
+        this.dptr = l;
+    }
+
+    void i_shake256_flip() {
+        int n = (int)this.dptr;
+        int n2 = n >> 3;
+        this.A[n2] = this.A[n2] ^ 31L << ((n & 7) << 3);
+        this.A[16] = this.A[16] ^ Long.MIN_VALUE;
+        this.dptr = 136L;
+    }
+
+    void inner_shake256_extract(byte[] byArray, int n, int n2) {
+        int n3 = n;
+        int n4 = (int)this.dptr;
+        while (n2 > 0) {
+            int n5;
+            if (n4 == 136) {
+                this.process_block(this.A);
+                n4 = 0;
+            }
+            if ((n5 = 136 - n4) > n2) {
+                n5 = n2;
+            }
+            n2 -= n5;
+            while (n5-- > 0) {
+                byArray[n3++] = (byte)(this.A[n4 >> 3] >>> ((n4 & 7) << 3));
+                ++n4;
+            }
+        }
+        this.dptr = n4;
+    }
+}
+

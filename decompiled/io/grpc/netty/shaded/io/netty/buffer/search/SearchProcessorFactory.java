@@ -1,0 +1,11 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package io.grpc.netty.shaded.io.netty.buffer.search;
+
+import io.grpc.netty.shaded.io.netty.buffer.search.SearchProcessor;
+
+public interface SearchProcessorFactory {
+    public SearchProcessor newSearchProcessor();
+}
+

@@ -1,0 +1,286 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.apache.activemq.broker;
+
+import java.io.IOException;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import org.apache.activemq.broker.Broker;
+import org.apache.activemq.broker.Connection;
+import org.apache.activemq.broker.Connector;
+import org.apache.activemq.broker.region.MessageReference;
+import org.apache.activemq.command.ConnectionId;
+import org.apache.activemq.command.ConnectionInfo;
+import org.apache.activemq.command.TransactionId;
+import org.apache.activemq.command.WireFormatInfo;
+import org.apache.activemq.command.XATransactionId;
+import org.apache.activemq.filter.MessageEvaluationContext;
+import org.apache.activemq.filter.NonCachedMessageEvaluationContext;
+import org.apache.activemq.security.MessageAuthorizationPolicy;
+import org.apache.activemq.security.SecurityContext;
+import org.apache.activemq.state.ConnectionState;
+import org.apache.activemq.transaction.Transaction;
+
+public class ConnectionContext {
+    private Connection connection;
+    private Connector connector;
+    private Broker broker;
+    private boolean inRecoveryMode;
+    private Transaction transaction;
+    private ConcurrentMap<TransactionId, Transaction> transactions;
+    private SecurityContext securityContext;
+    private ConnectionId connectionId;
+    private String clientId;
+    private String userName;
+    private boolean reconnect;
+    private WireFormatInfo wireFormatInfo;
+    private Object longTermStoreContext;
+    private boolean producerFlowControl = true;
+    private MessageAuthorizationPolicy messageAuthorizationPolicy;
+    private boolean networkConnection;
+    private boolean faultTolerant;
+    private final AtomicBoolean stopping = new AtomicBoolean();
+    private final MessageEvaluationContext messageEvaluationContext;
+    private boolean dontSendReponse;
+    private boolean clientMaster = true;
+    private ConnectionState connectionState;
+    private XATransactionId xid;
+
+    public ConnectionContext() {
+        this.messageEvaluationContext = new NonCachedMessageEvaluationContext();
+    }
+
+    public ConnectionContext(MessageEvaluationContext messageEvaluationContext) {
+        this.messageEvaluationContext = messageEvaluationContext;
+    }
+
+    public ConnectionContext(ConnectionInfo info) {
+        this();
+        this.setClientId(info.getClientId());
+        this.setUserName(info.getUserName());
+        this.setConnectionId(info.getConnectionId());
+    }
+
+    public ConnectionContext copy() {
+        ConnectionContext rc = new ConnectionContext(this.messageEvaluationContext);
+        rc.connection = this.connection;
+        rc.connector = this.connector;
+        rc.broker = this.broker;
+        rc.inRecoveryMode = this.inRecoveryMode;
+        rc.transaction = this.transaction;
+        rc.transactions = this.transactions;
+        rc.securityContext = this.securityContext;
+        rc.connectionId = this.connectionId;
+        rc.clientId = this.clientId;
+        rc.userName = this.userName;
+        rc.reconnect = this.reconnect;
+        rc.wireFormatInfo = this.wireFormatInfo;
+        rc.longTermStoreContext = this.longTermStoreContext;
+        rc.producerFlowControl = this.producerFlowControl;
+        rc.messageAuthorizationPolicy = this.messageAuthorizationPolicy;
+        rc.networkConnection = this.networkConnection;
+        rc.faultTolerant = this.faultTolerant;
+        rc.stopping.set(this.stopping.get());
+        rc.dontSendReponse = this.dontSendReponse;
+        rc.clientMaster = this.clientMaster;
+        return rc;
+    }
+
+    public SecurityContext getSecurityContext() {
+        return this.securityContext;
+    }
+
+    public void setSecurityContext(SecurityContext subject) {
+        this.securityContext = subject;
+        if (subject != null) {
+            this.setUserName(subject.getUserName());
+        } else {
+            this.setUserName(null);
+        }
+    }
+
+    public Broker getBroker() {
+        return this.broker;
+    }
+
+    public void setBroker(Broker broker) {
+        this.broker = broker;
+    }
+
+    public Connection getConnection() {
+        return this.connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public Transaction getTransaction() {
+        return this.transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
+    public Connector getConnector() {
+        return this.connector;
+    }
+
+    public void setConnector(Connector connector) {
+        this.connector = connector;
+    }
+
+    public MessageAuthorizationPolicy getMessageAuthorizationPolicy() {
+        return this.messageAuthorizationPolicy;
+    }
+
+    public void setMessageAuthorizationPolicy(MessageAuthorizationPolicy messageAuthorizationPolicy) {
+        this.messageAuthorizationPolicy = messageAuthorizationPolicy;
+    }
+
+    public boolean isInRecoveryMode() {
+        return this.inRecoveryMode;
+    }
+
+    public void setInRecoveryMode(boolean inRecoveryMode) {
+        this.inRecoveryMode = inRecoveryMode;
+    }
+
+    public ConcurrentMap<TransactionId, Transaction> getTransactions() {
+        return this.transactions;
+    }
+
+    public void setTransactions(ConcurrentMap<TransactionId, Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public boolean isInTransaction() {
+        return this.transaction != null;
+    }
+
+    public String getClientId() {
+        return this.clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public boolean isReconnect() {
+        return this.reconnect;
+    }
+
+    public void setReconnect(boolean reconnect) {
+        this.reconnect = reconnect;
+    }
+
+    public WireFormatInfo getWireFormatInfo() {
+        return this.wireFormatInfo;
+    }
+
+    public void setWireFormatInfo(WireFormatInfo wireFormatInfo) {
+        this.wireFormatInfo = wireFormatInfo;
+    }
+
+    public ConnectionId getConnectionId() {
+        return this.connectionId;
+    }
+
+    public void setConnectionId(ConnectionId connectionId) {
+        this.connectionId = connectionId;
+    }
+
+    public String getUserName() {
+        return this.userName;
+    }
+
+    protected void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public MessageEvaluationContext getMessageEvaluationContext() {
+        return this.messageEvaluationContext;
+    }
+
+    public Object getLongTermStoreContext() {
+        return this.longTermStoreContext;
+    }
+
+    public void setLongTermStoreContext(Object longTermStoreContext) {
+        this.longTermStoreContext = longTermStoreContext;
+    }
+
+    public boolean isProducerFlowControl() {
+        return this.producerFlowControl;
+    }
+
+    public void setProducerFlowControl(boolean disableProducerFlowControl) {
+        this.producerFlowControl = disableProducerFlowControl;
+    }
+
+    public boolean isAllowedToConsume(MessageReference n) throws IOException {
+        if (this.messageAuthorizationPolicy != null) {
+            return this.messageAuthorizationPolicy.isAllowedToConsume(this, n.getMessage());
+        }
+        return true;
+    }
+
+    public synchronized boolean isNetworkConnection() {
+        return this.networkConnection;
+    }
+
+    public synchronized void setNetworkConnection(boolean networkConnection) {
+        this.networkConnection = networkConnection;
+    }
+
+    public AtomicBoolean getStopping() {
+        return this.stopping;
+    }
+
+    public void setDontSendReponse(boolean b) {
+        this.dontSendReponse = b;
+    }
+
+    public boolean isDontSendReponse() {
+        return this.dontSendReponse;
+    }
+
+    public boolean isClientMaster() {
+        return this.clientMaster;
+    }
+
+    public void setClientMaster(boolean clientMaster) {
+        this.clientMaster = clientMaster;
+    }
+
+    public boolean isFaultTolerant() {
+        return this.faultTolerant;
+    }
+
+    public void setFaultTolerant(boolean faultTolerant) {
+        this.faultTolerant = faultTolerant;
+    }
+
+    public void setConnectionState(ConnectionState connectionState) {
+        this.connectionState = connectionState;
+    }
+
+    public ConnectionState getConnectionState() {
+        return this.connectionState;
+    }
+
+    public void setXid(XATransactionId id) {
+        this.xid = id;
+    }
+
+    public XATransactionId getXid() {
+        return this.xid;
+    }
+
+    public boolean isAllowLinkStealing() {
+        return this.connector != null && this.connector.isAllowLinkStealing();
+    }
+}
+

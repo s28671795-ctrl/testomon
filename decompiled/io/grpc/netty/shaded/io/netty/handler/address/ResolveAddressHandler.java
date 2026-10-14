@@ -1,0 +1,50 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package io.grpc.netty.shaded.io.netty.handler.address;
+
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandler;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandlerAdapter;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromise;
+import io.grpc.netty.shaded.io.netty.resolver.AddressResolver;
+import io.grpc.netty.shaded.io.netty.resolver.AddressResolverGroup;
+import io.grpc.netty.shaded.io.netty.util.concurrent.Future;
+import io.grpc.netty.shaded.io.netty.util.concurrent.FutureListener;
+import io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import java.net.SocketAddress;
+
+@ChannelHandler.Sharable
+public class ResolveAddressHandler
+extends ChannelOutboundHandlerAdapter {
+    private final AddressResolverGroup<? extends SocketAddress> resolverGroup;
+
+    public ResolveAddressHandler(AddressResolverGroup<? extends SocketAddress> resolverGroup) {
+        this.resolverGroup = ObjectUtil.checkNotNull(resolverGroup, "resolverGroup");
+    }
+
+    @Override
+    public void connect(final ChannelHandlerContext ctx, SocketAddress remoteAddress, final SocketAddress localAddress, final ChannelPromise promise) {
+        AddressResolver<? extends SocketAddress> resolver2 = this.resolverGroup.getResolver(ctx.executor());
+        if (resolver2.isSupported(remoteAddress) && !resolver2.isResolved(remoteAddress)) {
+            resolver2.resolve(remoteAddress).addListener((GenericFutureListener<Future<? extends SocketAddress>>)new FutureListener<SocketAddress>(){
+
+                @Override
+                public void operationComplete(Future<SocketAddress> future) {
+                    Throwable cause = future.cause();
+                    if (cause != null) {
+                        promise.setFailure(cause);
+                    } else {
+                        ctx.connect(future.getNow(), localAddress, promise);
+                    }
+                    ctx.pipeline().remove(ResolveAddressHandler.this);
+                }
+            });
+        } else {
+            ctx.connect(remoteAddress, localAddress, promise);
+            ctx.pipeline().remove(this);
+        }
+    }
+}
+

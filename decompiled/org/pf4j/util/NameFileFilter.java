@@ -1,0 +1,22 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.pf4j.util;
+
+import java.io.File;
+import java.io.FileFilter;
+
+public class NameFileFilter
+implements FileFilter {
+    private String name;
+
+    public NameFileFilter(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean accept(File file) {
+        return file.getName().equalsIgnoreCase(this.name);
+    }
+}
+

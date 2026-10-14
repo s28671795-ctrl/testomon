@@ -1,0 +1,582 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package scala.collection.immutable;
+
+import java.util.NoSuchElementException;
+import scala.$less$colon$less;
+import scala.Function0;
+import scala.Function1;
+import scala.Function2;
+import scala.Option;
+import scala.PartialFunction;
+import scala.Tuple2;
+import scala.collection.BufferedIterator;
+import scala.collection.Factory;
+import scala.collection.Iterable;
+import scala.collection.IterableOnce;
+import scala.collection.IterableOnceOps;
+import scala.collection.Iterator;
+import scala.collection.Stepper;
+import scala.collection.StepperShape;
+import scala.collection.immutable.ChampBaseReverseIterator;
+import scala.collection.immutable.IndexedSeq;
+import scala.collection.immutable.List;
+import scala.collection.immutable.Map;
+import scala.collection.immutable.MapNode;
+import scala.collection.immutable.Node;
+import scala.collection.immutable.Seq;
+import scala.collection.immutable.Set;
+import scala.collection.immutable.Stream;
+import scala.collection.immutable.Vector;
+import scala.collection.mutable.Buffer;
+import scala.collection.mutable.StringBuilder;
+import scala.math.Numeric;
+import scala.math.Ordering;
+import scala.reflect.ClassTag;
+import scala.reflect.ScalaSignature;
+import scala.runtime.Statics;
+import scala.util.hashing.MurmurHash3$;
+
+@ScalaSignature(bytes="\u0006\u0005e2Aa\u0002\u0005\u0007\u001f!A1\u0006\u0001B\u0001B\u0003%Q\u0003C\u0003-\u0001\u0011\u0005Q\u0006\u0003\u00041\u0001\u0001\u0006K!\r\u0005\ni\u0001\u0001\r\u0011!Q!\n\u0011BQ!\u000e\u0001\u0005BYBQa\u000e\u0001\u0005\u0002a\u0012A$T1q\u0017\u0016Lh+\u00197vKR+\b\u000f\\3ICND\u0017\n^3sCR|'O\u0003\u0002\n\u0015\u0005I\u0011.\\7vi\u0006\u0014G.\u001a\u0006\u0003\u00171\t!bY8mY\u0016\u001cG/[8o\u0015\u0005i\u0011!B:dC2\f7\u0001A\u000b\u0004!i)3c\u0001\u0001\u0012OA\u0019!cE\u000b\u000e\u0003!I!\u0001\u0006\u0005\u00031\rC\u0017-\u001c9CCN,'+\u001a<feN,\u0017\n^3sCR|'\u000f\u0005\u0003\u0013-a!\u0013BA\f\t\u0005\u001di\u0015\r\u001d(pI\u0016\u0004\"!\u0007\u000e\r\u0001\u0011)1\u0004\u0001b\u00019\t\t1*\u0005\u0002\u001eCA\u0011adH\u0007\u0002\u0019%\u0011\u0001\u0005\u0004\u0002\b\u001d>$\b.\u001b8h!\tq\"%\u0003\u0002$\u0019\t\u0019\u0011I\\=\u0011\u0005e)C!\u0002\u0014\u0001\u0005\u0004a\"!\u0001,\u0011\u0007!J\u0013%D\u0001\u000b\u0013\tQ#B\u0001\u0005Ji\u0016\u0014\u0018\r^8s\u0003!\u0011xn\u001c;O_\u0012,\u0017A\u0002\u001fj]&$h\b\u0006\u0002/_A!!\u0003\u0001\r%\u0011\u0015Y#\u00011\u0001\u0016\u0003\u0011A\u0017m\u001d5\u0011\u0005y\u0011\u0014BA\u001a\r\u0005\rIe\u000e^\u0001\u0006m\u0006dW/Z\u0001\tQ\u0006\u001c\bnQ8eKR\t\u0011'\u0001\u0003oKb$H#\u0001\u0018")
+public final class MapKeyValueTupleHashIterator<K, V>
+extends ChampBaseReverseIterator<MapNode<K, V>>
+implements Iterator<Object> {
+    private int hash = 0;
+    private V value;
+
+    @Override
+    public final boolean hasDefiniteSize() {
+        return Iterator.hasDefiniteSize$(this);
+    }
+
+    @Override
+    public final Iterator<Object> iterator() {
+        return Iterator.iterator$(this);
+    }
+
+    @Override
+    public Option<Object> nextOption() {
+        return Iterator.nextOption$(this);
+    }
+
+    @Override
+    public boolean contains(Object elem) {
+        return Iterator.contains$(this, elem);
+    }
+
+    @Override
+    public BufferedIterator<Object> buffered() {
+        return Iterator.buffered$(this);
+    }
+
+    @Override
+    public <B> Iterator<B> padTo(int len, B elem) {
+        return Iterator.padTo$(this, len, elem);
+    }
+
+    @Override
+    public Tuple2<Iterator<Object>, Iterator<Object>> partition(Function1<Object, Object> p) {
+        return Iterator.partition$(this, p);
+    }
+
+    @Override
+    public <B> Iterator.GroupedIterator<B> grouped(int size) {
+        return Iterator.grouped$(this, size);
+    }
+
+    @Override
+    public <B> Iterator.GroupedIterator<B> sliding(int size, int step) {
+        return Iterator.sliding$(this, size, step);
+    }
+
+    @Override
+    public <B> int sliding$default$2() {
+        return Iterator.sliding$default$2$(this);
+    }
+
+    @Override
+    public <B> Iterator<B> scanLeft(B z, Function2<B, Object, B> op) {
+        return Iterator.scanLeft$(this, z, op);
+    }
+
+    @Override
+    public <B> Iterator<B> scanRight(B z, Function2<Object, B, B> op) {
+        return Iterator.scanRight$(this, z, op);
+    }
+
+    @Override
+    public int indexWhere(Function1<Object, Object> p, int from) {
+        return Iterator.indexWhere$(this, p, from);
+    }
+
+    @Override
+    public int indexWhere$default$2() {
+        return Iterator.indexWhere$default$2$(this);
+    }
+
+    @Override
+    public <B> int indexOf(B elem) {
+        return Iterator.indexOf$(this, elem);
+    }
+
+    @Override
+    public <B> int indexOf(B elem, int from) {
+        return Iterator.indexOf$(this, elem, from);
+    }
+
+    @Override
+    public final int length() {
+        return Iterator.length$(this);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return Iterator.isEmpty$(this);
+    }
+
+    @Override
+    public Iterator<Object> filter(Function1<Object, Object> p) {
+        return Iterator.filter$(this, p);
+    }
+
+    @Override
+    public Iterator<Object> filterNot(Function1<Object, Object> p) {
+        return Iterator.filterNot$(this, p);
+    }
+
+    @Override
+    public Iterator<Object> filterImpl(Function1<Object, Object> p, boolean isFlipped) {
+        return Iterator.filterImpl$(this, p, isFlipped);
+    }
+
+    @Override
+    public Iterator<Object> withFilter(Function1<Object, Object> p) {
+        return Iterator.withFilter$(this, p);
+    }
+
+    @Override
+    public <B> Iterator<B> collect(PartialFunction<Object, B> pf) {
+        return Iterator.collect$(this, pf);
+    }
+
+    @Override
+    public Iterator<Object> distinct() {
+        return Iterator.distinct$(this);
+    }
+
+    @Override
+    public <B> Iterator<Object> distinctBy(Function1<Object, B> f) {
+        return Iterator.distinctBy$(this, f);
+    }
+
+    @Override
+    public <B> Iterator<B> map(Function1<Object, B> f) {
+        return Iterator.map$(this, f);
+    }
+
+    @Override
+    public <B> Iterator<B> flatMap(Function1<Object, IterableOnce<B>> f) {
+        return Iterator.flatMap$(this, f);
+    }
+
+    @Override
+    public <B> Iterator<B> flatten(Function1<Object, IterableOnce<B>> ev) {
+        return Iterator.flatten$(this, ev);
+    }
+
+    @Override
+    public <B> Iterator<B> concat(Function0<IterableOnce<B>> xs) {
+        return Iterator.concat$(this, xs);
+    }
+
+    @Override
+    public final <B> Iterator<B> $plus$plus(Function0<IterableOnce<B>> xs) {
+        return Iterator.$plus$plus$(this, xs);
+    }
+
+    @Override
+    public Iterator<Object> take(int n) {
+        return Iterator.take$(this, n);
+    }
+
+    @Override
+    public Iterator<Object> takeWhile(Function1<Object, Object> p) {
+        return Iterator.takeWhile$(this, p);
+    }
+
+    @Override
+    public Iterator<Object> drop(int n) {
+        return Iterator.drop$(this, n);
+    }
+
+    @Override
+    public Iterator<Object> dropWhile(Function1<Object, Object> p) {
+        return Iterator.dropWhile$(this, p);
+    }
+
+    @Override
+    public Tuple2<Iterator<Object>, Iterator<Object>> span(Function1<Object, Object> p) {
+        return Iterator.span$(this, p);
+    }
+
+    @Override
+    public Iterator<Object> slice(int from, int until) {
+        return Iterator.slice$(this, from, until);
+    }
+
+    @Override
+    public Iterator<Object> sliceIterator(int from, int until) {
+        return Iterator.sliceIterator$(this, from, until);
+    }
+
+    @Override
+    public <B> Iterator<Tuple2<Object, B>> zip(IterableOnce<B> that) {
+        return Iterator.zip$(this, that);
+    }
+
+    @Override
+    public <A1, B> Iterator<Tuple2<A1, B>> zipAll(IterableOnce<B> that, A1 thisElem, B thatElem) {
+        return Iterator.zipAll$(this, that, thisElem, thatElem);
+    }
+
+    @Override
+    public Iterator<Tuple2<Object, Object>> zipWithIndex() {
+        return Iterator.zipWithIndex$(this);
+    }
+
+    @Override
+    public <B> boolean sameElements(IterableOnce<B> that) {
+        return Iterator.sameElements$(this, that);
+    }
+
+    @Override
+    public Tuple2<Iterator<Object>, Iterator<Object>> duplicate() {
+        return Iterator.duplicate$(this);
+    }
+
+    @Override
+    public <B> Iterator<B> patch(int from, Iterator<B> patchElems, int replaced) {
+        return Iterator.patch$(this, from, patchElems, replaced);
+    }
+
+    @Override
+    public <U> Iterator<Object> tapEach(Function1<Object, U> f) {
+        return Iterator.tapEach$(this, f);
+    }
+
+    @Override
+    public String toString() {
+        return Iterator.toString$(this);
+    }
+
+    @Override
+    public Iterator<Object> seq() {
+        return Iterator.seq$(this);
+    }
+
+    @Override
+    public Tuple2<Iterator<Object>, Iterator<Object>> splitAt(int n) {
+        return IterableOnceOps.splitAt$(this, n);
+    }
+
+    @Override
+    public boolean isTraversableAgain() {
+        return IterableOnceOps.isTraversableAgain$(this);
+    }
+
+    @Override
+    public <U> void foreach(Function1<Object, U> f) {
+        IterableOnceOps.foreach$(this, f);
+    }
+
+    @Override
+    public boolean forall(Function1<Object, Object> p) {
+        return IterableOnceOps.forall$(this, p);
+    }
+
+    @Override
+    public boolean exists(Function1<Object, Object> p) {
+        return IterableOnceOps.exists$(this, p);
+    }
+
+    @Override
+    public int count(Function1<Object, Object> p) {
+        return IterableOnceOps.count$(this, p);
+    }
+
+    @Override
+    public Option<Object> find(Function1<Object, Object> p) {
+        return IterableOnceOps.find$(this, p);
+    }
+
+    @Override
+    public <B> B foldLeft(B z, Function2<B, Object, B> op) {
+        return (B)IterableOnceOps.foldLeft$(this, z, op);
+    }
+
+    @Override
+    public <B> B foldRight(B z, Function2<Object, B, B> op) {
+        return (B)IterableOnceOps.foldRight$(this, z, op);
+    }
+
+    @Override
+    public final <B> B $div$colon(B z, Function2<B, Object, B> op) {
+        return (B)IterableOnceOps.$div$colon$(this, z, op);
+    }
+
+    @Override
+    public final <B> B $colon$bslash(B z, Function2<Object, B, B> op) {
+        return (B)IterableOnceOps.$colon$bslash$(this, z, op);
+    }
+
+    @Override
+    public <A1> A1 fold(A1 z, Function2<A1, A1, A1> op) {
+        return (A1)IterableOnceOps.fold$(this, z, op);
+    }
+
+    @Override
+    public <B> B reduce(Function2<B, B, B> op) {
+        return (B)IterableOnceOps.reduce$(this, op);
+    }
+
+    @Override
+    public <B> Option<B> reduceOption(Function2<B, B, B> op) {
+        return IterableOnceOps.reduceOption$(this, op);
+    }
+
+    @Override
+    public <B> B reduceLeft(Function2<B, Object, B> op) {
+        return (B)IterableOnceOps.reduceLeft$(this, op);
+    }
+
+    @Override
+    public <B> B reduceRight(Function2<Object, B, B> op) {
+        return (B)IterableOnceOps.reduceRight$(this, op);
+    }
+
+    @Override
+    public <B> Option<B> reduceLeftOption(Function2<B, Object, B> op) {
+        return IterableOnceOps.reduceLeftOption$(this, op);
+    }
+
+    @Override
+    public <B> Option<B> reduceRightOption(Function2<Object, B, B> op) {
+        return IterableOnceOps.reduceRightOption$(this, op);
+    }
+
+    @Override
+    public boolean nonEmpty() {
+        return IterableOnceOps.nonEmpty$(this);
+    }
+
+    @Override
+    public int size() {
+        return IterableOnceOps.size$(this);
+    }
+
+    @Override
+    public final <B> void copyToBuffer(Buffer<B> dest) {
+        IterableOnceOps.copyToBuffer$(this, dest);
+    }
+
+    @Override
+    public <B> int copyToArray(Object xs) {
+        return IterableOnceOps.copyToArray$(this, xs);
+    }
+
+    @Override
+    public <B> int copyToArray(Object xs, int start2) {
+        return IterableOnceOps.copyToArray$(this, xs, start2);
+    }
+
+    @Override
+    public <B> int copyToArray(Object xs, int start2, int len) {
+        return IterableOnceOps.copyToArray$(this, xs, start2, len);
+    }
+
+    @Override
+    public <B> B sum(Numeric<B> num) {
+        return (B)IterableOnceOps.sum$(this, num);
+    }
+
+    @Override
+    public <B> B product(Numeric<B> num) {
+        return (B)IterableOnceOps.product$(this, num);
+    }
+
+    @Override
+    public <B> Object min(Ordering<B> ord) {
+        return IterableOnceOps.min$(this, ord);
+    }
+
+    @Override
+    public <B> Option<Object> minOption(Ordering<B> ord) {
+        return IterableOnceOps.minOption$(this, ord);
+    }
+
+    @Override
+    public <B> Object max(Ordering<B> ord) {
+        return IterableOnceOps.max$(this, ord);
+    }
+
+    @Override
+    public <B> Option<Object> maxOption(Ordering<B> ord) {
+        return IterableOnceOps.maxOption$(this, ord);
+    }
+
+    @Override
+    public <B> Object maxBy(Function1<Object, B> f, Ordering<B> cmp) {
+        return IterableOnceOps.maxBy$(this, f, cmp);
+    }
+
+    @Override
+    public <B> Option<Object> maxByOption(Function1<Object, B> f, Ordering<B> cmp) {
+        return IterableOnceOps.maxByOption$(this, f, cmp);
+    }
+
+    @Override
+    public <B> Object minBy(Function1<Object, B> f, Ordering<B> cmp) {
+        return IterableOnceOps.minBy$(this, f, cmp);
+    }
+
+    @Override
+    public <B> Option<Object> minByOption(Function1<Object, B> f, Ordering<B> cmp) {
+        return IterableOnceOps.minByOption$(this, f, cmp);
+    }
+
+    @Override
+    public <B> Option<B> collectFirst(PartialFunction<Object, B> pf) {
+        return IterableOnceOps.collectFirst$(this, pf);
+    }
+
+    @Override
+    public <B> B aggregate(Function0<B> z, Function2<B, Object, B> seqop, Function2<B, B, B> combop) {
+        return (B)IterableOnceOps.aggregate$(this, z, seqop, combop);
+    }
+
+    @Override
+    public <B> boolean corresponds(IterableOnce<B> that, Function2<Object, B, Object> p) {
+        return IterableOnceOps.corresponds$(this, that, p);
+    }
+
+    @Override
+    public final String mkString(String start2, String sep, String end) {
+        return IterableOnceOps.mkString$(this, start2, sep, end);
+    }
+
+    @Override
+    public final String mkString(String sep) {
+        return IterableOnceOps.mkString$(this, sep);
+    }
+
+    @Override
+    public final String mkString() {
+        return IterableOnceOps.mkString$(this);
+    }
+
+    @Override
+    public StringBuilder addString(StringBuilder b, String start2, String sep, String end) {
+        return IterableOnceOps.addString$(this, b, start2, sep, end);
+    }
+
+    @Override
+    public final StringBuilder addString(StringBuilder b, String sep) {
+        return IterableOnceOps.addString$(this, b, sep);
+    }
+
+    @Override
+    public final StringBuilder addString(StringBuilder b) {
+        return IterableOnceOps.addString$(this, b);
+    }
+
+    @Override
+    public <C1> C1 to(Factory<Object, C1> factory2) {
+        return (C1)IterableOnceOps.to$(this, factory2);
+    }
+
+    @Override
+    public final Iterator<Object> toIterator() {
+        return IterableOnceOps.toIterator$(this);
+    }
+
+    @Override
+    public List<Object> toList() {
+        return IterableOnceOps.toList$(this);
+    }
+
+    @Override
+    public Vector<Object> toVector() {
+        return IterableOnceOps.toVector$(this);
+    }
+
+    @Override
+    public <K$, V$> Map<K$, V$> toMap($less$colon$less<Object, Tuple2<K$, V$>> ev) {
+        return IterableOnceOps.toMap$(this, ev);
+    }
+
+    @Override
+    public <B> Set<B> toSet() {
+        return IterableOnceOps.toSet$(this);
+    }
+
+    @Override
+    public Seq<Object> toSeq() {
+        return IterableOnceOps.toSeq$(this);
+    }
+
+    @Override
+    public IndexedSeq<Object> toIndexedSeq() {
+        return IterableOnceOps.toIndexedSeq$(this);
+    }
+
+    @Override
+    public final Stream<Object> toStream() {
+        return IterableOnceOps.toStream$(this);
+    }
+
+    @Override
+    public final <B> Buffer<B> toBuffer() {
+        return IterableOnceOps.toBuffer$(this);
+    }
+
+    @Override
+    public <B> Object toArray(ClassTag<B> evidence$2) {
+        return IterableOnceOps.toArray$(this, evidence$2);
+    }
+
+    @Override
+    public Iterable<Object> reversed() {
+        return IterableOnceOps.reversed$(this);
+    }
+
+    @Override
+    public <S extends Stepper<?>> S stepper(StepperShape<Object, S> shape) {
+        return (S)IterableOnce.stepper$(this, shape);
+    }
+
+    @Override
+    public int knownSize() {
+        return IterableOnce.knownSize$(this);
+    }
+
+    public int hashCode() {
+        return MurmurHash3$.MODULE$.tuple2Hash(this.hash, Statics.anyHash(this.value), -889275714);
+    }
+
+    @Override
+    public MapKeyValueTupleHashIterator<K, V> next() {
+        if (!this.hasNext()) {
+            throw new NoSuchElementException();
+        }
+        this.hash = ((Node)this.currentValueNode()).getHash(this.currentValueCursor());
+        this.value = ((MapNode)this.currentValueNode()).getValue(this.currentValueCursor());
+        this.currentValueCursor_$eq(this.currentValueCursor() - 1);
+        return this;
+    }
+
+    public MapKeyValueTupleHashIterator(MapNode<K, V> rootNode) {
+        super(rootNode);
+    }
+}
+

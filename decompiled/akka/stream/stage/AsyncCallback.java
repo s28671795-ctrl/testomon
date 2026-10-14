@@ -1,0 +1,16 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package akka.stream.stage;
+
+import akka.Done;
+import scala.concurrent.Future;
+import scala.reflect.ScalaSignature;
+
+@ScalaSignature(bytes="\u0006\u0005I2qa\u0001\u0003\u0011\u0002G\u00051\u0002C\u0003\u0014\u0001\u0019\u0005A\u0003C\u0003&\u0001\u0019\u0005aEA\u0007Bgft7mQ1mY\n\f7m\u001b\u0006\u0003\u000b\u0019\tQa\u001d;bO\u0016T!a\u0002\u0005\u0002\rM$(/Z1n\u0015\u0005I\u0011\u0001B1lW\u0006\u001c\u0001!\u0006\u0002\r9M\u0011\u0001!\u0004\t\u0003\u001dEi\u0011a\u0004\u0006\u0002!\u0005)1oY1mC&\u0011!c\u0004\u0002\u0007\u0003:L(+\u001a4\u0002\r%tgo\\6f)\t)\u0002\u0004\u0005\u0002\u000f-%\u0011qc\u0004\u0002\u0005+:LG\u000fC\u0003\u001a\u0003\u0001\u0007!$A\u0001u!\tYB\u0004\u0004\u0001\u0005\u000bu\u0001!\u0019\u0001\u0010\u0003\u0003Q\u000b\"a\b\u0012\u0011\u00059\u0001\u0013BA\u0011\u0010\u0005\u001dqu\u000e\u001e5j]\u001e\u0004\"AD\u0012\n\u0005\u0011z!aA!os\u0006\u0011\u0012N\u001c<pW\u0016<\u0016\u000e\u001e5GK\u0016$'-Y2l)\t9\u0013\u0007E\u0002)W5j\u0011!\u000b\u0006\u0003U=\t!bY8oGV\u0014(/\u001a8u\u0013\ta\u0013F\u0001\u0004GkR,(/\u001a\t\u0003]=j\u0011\u0001C\u0005\u0003a!\u0011A\u0001R8oK\")\u0011D\u0001a\u00015\u0001")
+public interface AsyncCallback<T> {
+    public void invoke(T var1);
+
+    public Future<Done> invokeWithFeedback(T var1);
+}
+

@@ -1,0 +1,552 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.jooq;
+
+import java.util.Collection;
+import org.jetbrains.annotations.NotNull;
+import org.jooq.BetweenAndStep4;
+import org.jooq.Comparator;
+import org.jooq.Condition;
+import org.jooq.Field;
+import org.jooq.Function4;
+import org.jooq.QuantifiedSelect;
+import org.jooq.Record4;
+import org.jooq.Result;
+import org.jooq.Row;
+import org.jooq.SQLDialect;
+import org.jooq.Select;
+import org.jooq.SelectField;
+import org.jooq.Statement;
+import org.jooq.Support;
+
+public interface Row4<T1, T2, T3, T4>
+extends Row,
+SelectField<Record4<T1, T2, T3, T4>> {
+    @NotNull
+    public <U> SelectField<U> mapping(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends U> var1);
+
+    @NotNull
+    public <U> SelectField<U> mapping(Class<U> var1, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends U> var2);
+
+    @NotNull
+    public Field<T1> field1();
+
+    @NotNull
+    public Field<T2> field2();
+
+    @NotNull
+    public Field<T3> field3();
+
+    @NotNull
+    public Field<T4> field4();
+
+    @Support
+    @NotNull
+    public Condition compare(Comparator var1, Row4<T1, T2, T3, T4> var2);
+
+    @Support
+    @NotNull
+    public Condition compare(Comparator var1, Record4<T1, T2, T3, T4> var2);
+
+    @Support
+    @NotNull
+    public Condition compare(Comparator var1, T1 var2, T2 var3, T3 var4, T4 var5);
+
+    @Support
+    @NotNull
+    public Condition compare(Comparator var1, Field<T1> var2, Field<T2> var3, Field<T3> var4, Field<T4> var5);
+
+    @Support
+    @NotNull
+    public Condition compare(Comparator var1, Select<? extends Record4<T1, T2, T3, T4>> var2);
+
+    @Support
+    @NotNull
+    public Condition compare(Comparator var1, QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var2);
+
+    @Support
+    @NotNull
+    public Condition equal(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition equal(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition equal(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition equal(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition equal(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition equal(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition eq(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition eq(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition eq(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition eq(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition eq(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition eq(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition notEqual(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition notEqual(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition notEqual(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition notEqual(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition notEqual(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition notEqual(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition ne(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition ne(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition ne(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition ne(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition ne(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition ne(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition isDistinctFrom(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition isDistinctFrom(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition isDistinctFrom(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition isDistinctFrom(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition isDistinctFrom(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition isNotDistinctFrom(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition isNotDistinctFrom(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition isNotDistinctFrom(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition isNotDistinctFrom(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition isNotDistinctFrom(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition lessThan(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition lessThan(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition lessThan(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition lessThan(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition lessThan(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition lessThan(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition lt(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition lt(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition lt(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition lt(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition lt(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition lt(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition lessOrEqual(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition lessOrEqual(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition lessOrEqual(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition lessOrEqual(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition lessOrEqual(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition lessOrEqual(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition le(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition le(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition le(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition le(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition le(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition le(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition greaterThan(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition greaterThan(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition greaterThan(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition greaterThan(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition greaterThan(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition greaterThan(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition gt(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition gt(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition gt(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition gt(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition gt(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition gt(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition greaterOrEqual(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition greaterOrEqual(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition greaterOrEqual(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition greaterOrEqual(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition greaterOrEqual(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition greaterOrEqual(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition ge(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition ge(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition ge(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public Condition ge(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public Condition ge(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition ge(QuantifiedSelect<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> between(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> between(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> between(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> between(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition between(Row4<T1, T2, T3, T4> var1, Row4<T1, T2, T3, T4> var2);
+
+    @Support
+    @NotNull
+    public Condition between(Record4<T1, T2, T3, T4> var1, Record4<T1, T2, T3, T4> var2);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> betweenSymmetric(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> betweenSymmetric(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> betweenSymmetric(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> betweenSymmetric(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition betweenSymmetric(Row4<T1, T2, T3, T4> var1, Row4<T1, T2, T3, T4> var2);
+
+    @Support
+    @NotNull
+    public Condition betweenSymmetric(Record4<T1, T2, T3, T4> var1, Record4<T1, T2, T3, T4> var2);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> notBetween(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> notBetween(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> notBetween(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> notBetween(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition notBetween(Row4<T1, T2, T3, T4> var1, Row4<T1, T2, T3, T4> var2);
+
+    @Support
+    @NotNull
+    public Condition notBetween(Record4<T1, T2, T3, T4> var1, Record4<T1, T2, T3, T4> var2);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> notBetweenSymmetric(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> notBetweenSymmetric(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> notBetweenSymmetric(Row4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public BetweenAndStep4<T1, T2, T3, T4> notBetweenSymmetric(Record4<T1, T2, T3, T4> var1);
+
+    @Support
+    @NotNull
+    public Condition notBetweenSymmetric(Row4<T1, T2, T3, T4> var1, Row4<T1, T2, T3, T4> var2);
+
+    @Support
+    @NotNull
+    public Condition notBetweenSymmetric(Record4<T1, T2, T3, T4> var1, Record4<T1, T2, T3, T4> var2);
+
+    @Support
+    @NotNull
+    public Condition in(Collection<? extends Row4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition in(Result<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition in(Row4<T1, T2, T3, T4> ... var1);
+
+    @Support
+    @NotNull
+    public Condition in(Record4<T1, T2, T3, T4> ... var1);
+
+    @Support
+    @NotNull
+    public Condition in(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition notIn(Collection<? extends Row4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition notIn(Result<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support
+    @NotNull
+    public Condition notIn(Row4<T1, T2, T3, T4> ... var1);
+
+    @Support
+    @NotNull
+    public Condition notIn(Record4<T1, T2, T3, T4> ... var1);
+
+    @Support
+    @NotNull
+    public Condition notIn(Select<? extends Record4<T1, T2, T3, T4>> var1);
+
+    @Support(value={SQLDialect.AURORA_POSTGRES, SQLDialect.DB2, SQLDialect.EXASOL, SQLDialect.HANA, SQLDialect.HSQLDB, SQLDialect.INFORMIX, SQLDialect.MARIADB, SQLDialect.MYSQL, SQLDialect.ORACLE, SQLDialect.POSTGRES, SQLDialect.SQLDATAWAREHOUSE, SQLDialect.SQLSERVER, SQLDialect.YUGABYTEDB})
+    @NotNull
+    public Statement set(Row4<T1, T2, T3, T4> var1);
+
+    @Support(value={SQLDialect.AURORA_POSTGRES, SQLDialect.DB2, SQLDialect.EXASOL, SQLDialect.HANA, SQLDialect.HSQLDB, SQLDialect.INFORMIX, SQLDialect.MARIADB, SQLDialect.MYSQL, SQLDialect.ORACLE, SQLDialect.POSTGRES, SQLDialect.SQLDATAWAREHOUSE, SQLDialect.SQLSERVER, SQLDialect.YUGABYTEDB})
+    @NotNull
+    public Statement set(Record4<T1, T2, T3, T4> var1);
+
+    @Support(value={SQLDialect.AURORA_POSTGRES, SQLDialect.DB2, SQLDialect.EXASOL, SQLDialect.HANA, SQLDialect.HSQLDB, SQLDialect.INFORMIX, SQLDialect.MARIADB, SQLDialect.MYSQL, SQLDialect.ORACLE, SQLDialect.POSTGRES, SQLDialect.SQLDATAWAREHOUSE, SQLDialect.SQLSERVER, SQLDialect.YUGABYTEDB})
+    @NotNull
+    public Statement set(T1 var1, T2 var2, T3 var3, T4 var4);
+
+    @Support(value={SQLDialect.AURORA_POSTGRES, SQLDialect.DB2, SQLDialect.EXASOL, SQLDialect.HANA, SQLDialect.HSQLDB, SQLDialect.INFORMIX, SQLDialect.MARIADB, SQLDialect.MYSQL, SQLDialect.ORACLE, SQLDialect.POSTGRES, SQLDialect.SQLDATAWAREHOUSE, SQLDialect.SQLSERVER, SQLDialect.YUGABYTEDB})
+    @NotNull
+    public Statement set(Field<T1> var1, Field<T2> var2, Field<T3> var3, Field<T4> var4);
+
+    @Support(value={SQLDialect.AURORA_POSTGRES, SQLDialect.DB2, SQLDialect.HANA, SQLDialect.HSQLDB, SQLDialect.INFORMIX, SQLDialect.MARIADB, SQLDialect.MYSQL, SQLDialect.ORACLE, SQLDialect.POSTGRES, SQLDialect.SQLDATAWAREHOUSE, SQLDialect.SQLSERVER, SQLDialect.YUGABYTEDB})
+    @NotNull
+    public Statement set(Select<? extends Record4<T1, T2, T3, T4>> var1);
+}
+

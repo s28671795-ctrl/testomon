@@ -1,0 +1,234 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.eclipse.jetty.servlet;
+
+import jakarta.servlet.Registration;
+import jakarta.servlet.ServletContext;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.eclipse.jetty.servlet.BaseHolder;
+import org.eclipse.jetty.servlet.Source;
+import org.eclipse.jetty.util.annotation.ManagedAttribute;
+import org.eclipse.jetty.util.annotation.ManagedObject;
+import org.eclipse.jetty.util.thread.AutoLock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@ManagedObject(value="Holder - a container for servlets and the like")
+public abstract class Holder<T>
+extends BaseHolder<T> {
+    private static final Logger LOG = LoggerFactory.getLogger(Holder.class);
+    private final Map<String, String> _initParams = new HashMap<String, String>(3);
+    private String _displayName;
+    private boolean _asyncSupported;
+    private String _name;
+
+    protected Holder(Source source2) {
+        super(source2);
+        switch (this.getSource().getOrigin()) {
+            case JAKARTA_API: 
+            case DESCRIPTOR: 
+            case ANNOTATION: {
+                this._asyncSupported = false;
+                break;
+            }
+            default: {
+                this._asyncSupported = true;
+            }
+        }
+    }
+
+    @ManagedAttribute(value="Display Name", readonly=true)
+    public String getDisplayName() {
+        return this._displayName;
+    }
+
+    public String getInitParameter(String param2) {
+        if (this._initParams == null) {
+            return null;
+        }
+        return this._initParams.get(param2);
+    }
+
+    public Enumeration<String> getInitParameterNames() {
+        if (this._initParams == null) {
+            return Collections.enumeration(Collections.EMPTY_LIST);
+        }
+        return Collections.enumeration(this._initParams.keySet());
+    }
+
+    @ManagedAttribute(value="Initial Parameters", readonly=true)
+    public Map<String, String> getInitParameters() {
+        return this._initParams;
+    }
+
+    @ManagedAttribute(value="Name", readonly=true)
+    public String getName() {
+        return this._name;
+    }
+
+    @Override
+    protected void setInstance(T instance) {
+        try (AutoLock l = this.lock();){
+            super.setInstance(instance);
+            if (this.getName() == null) {
+                this.setName(String.format("%s@%x", instance.getClass().getName(), instance.hashCode()));
+            }
+        }
+    }
+
+    public void destroyInstance(Object instance) throws Exception {
+    }
+
+    @Override
+    public void setClassName(String className) {
+        super.setClassName(className);
+        if (this._name == null) {
+            this._name = className + "-" + Integer.toHexString(this.hashCode());
+        }
+    }
+
+    @Override
+    public void setHeldClass(Class<? extends T> held) {
+        super.setHeldClass(held);
+        if (held != null && this._name == null) {
+            this._name = held.getName() + "-" + Integer.toHexString(this.hashCode());
+        }
+    }
+
+    public void setDisplayName(String name) {
+        this._displayName = name;
+    }
+
+    public void setInitParameter(String param2, String value) {
+        this._initParams.put(param2, value);
+    }
+
+    public void setInitParameters(Map<String, String> map) {
+        this._initParams.clear();
+        this._initParams.putAll(map);
+    }
+
+    public void setName(String name) {
+        this._name = name;
+    }
+
+    public void setAsyncSupported(boolean suspendable) {
+        this._asyncSupported = suspendable;
+    }
+
+    public boolean isAsyncSupported() {
+        return this._asyncSupported;
+    }
+
+    @Override
+    public String dump() {
+        return super.dump();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s@%x==%s", this._name, this.hashCode(), this.getClassName());
+    }
+
+    protected class HolderRegistration
+    implements Registration.Dynamic {
+        protected HolderRegistration() {
+        }
+
+        @Override
+        public void setAsyncSupported(boolean isAsyncSupported) {
+            Holder.this.illegalStateIfContextStarted();
+            Holder.this.setAsyncSupported(isAsyncSupported);
+        }
+
+        public void setDescription(String description) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("{} is {}", (Object)this, (Object)description);
+            }
+        }
+
+        @Override
+        public String getClassName() {
+            return Holder.this.getClassName();
+        }
+
+        @Override
+        public String getInitParameter(String name) {
+            return Holder.this.getInitParameter(name);
+        }
+
+        @Override
+        public Map<String, String> getInitParameters() {
+            return Holder.this.getInitParameters();
+        }
+
+        @Override
+        public String getName() {
+            return Holder.this.getName();
+        }
+
+        @Override
+        public boolean setInitParameter(String name, String value) {
+            Holder.this.illegalStateIfContextStarted();
+            if (name == null) {
+                throw new IllegalArgumentException("init parameter name required");
+            }
+            if (value == null) {
+                throw new IllegalArgumentException("non-null value required for init parameter " + name);
+            }
+            if (Holder.this.getInitParameter(name) != null) {
+                return false;
+            }
+            Holder.this.setInitParameter(name, value);
+            return true;
+        }
+
+        @Override
+        public Set<String> setInitParameters(Map<String, String> initParameters) {
+            Holder.this.illegalStateIfContextStarted();
+            HashSet<String> clash = null;
+            for (Map.Entry<String, String> entry : initParameters.entrySet()) {
+                if (entry.getKey() == null) {
+                    throw new IllegalArgumentException("init parameter name required");
+                }
+                if (entry.getValue() == null) {
+                    throw new IllegalArgumentException("non-null value required for init parameter " + entry.getKey());
+                }
+                if (Holder.this.getInitParameter(entry.getKey()) == null) continue;
+                if (clash == null) {
+                    clash = new HashSet<String>();
+                }
+                clash.add(entry.getKey());
+            }
+            if (clash != null) {
+                return clash;
+            }
+            Holder.this.getInitParameters().putAll(initParameters);
+            return Collections.emptySet();
+        }
+    }
+
+    protected class HolderConfig {
+        protected HolderConfig() {
+        }
+
+        public ServletContext getServletContext() {
+            return Holder.this.getServletHandler().getServletContext();
+        }
+
+        public String getInitParameter(String param2) {
+            return Holder.this.getInitParameter(param2);
+        }
+
+        public Enumeration<String> getInitParameterNames() {
+            return Holder.this.getInitParameterNames();
+        }
+    }
+}
+

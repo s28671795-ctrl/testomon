@@ -1,0 +1,11 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package scala.concurrent;
+
+import scala.reflect.ScalaSignature;
+
+@ScalaSignature(bytes="\u0006\u0005m1\u0001\"\u0001\u0002\u0011\u0002G\u0005q\u0001\u0004\u0002\n\u0005\u0006$8\r[1cY\u0016T!a\u0001\u0003\u0002\u0015\r|gnY;se\u0016tGOC\u0001\u0006\u0003\u0015\u00198-\u00197b\u0007\u0001\u0019\"\u0001\u0001\u0005\u0011\u0005%QQ\"\u0001\u0003\n\u0005-!!AB!osJ+gME\u0002\u000e#M1AA\u0004\u0001\u0001\u0019\taAH]3gS:,W.\u001a8u})\u0011\u0001CB\u0001\u0007yI|w\u000e\u001e \u0011\u0005I\u0001Q\"\u0001\u0002\u0011\u0005QIR\"A\u000b\u000b\u0005Y9\u0012\u0001\u00027b]\u001eT\u0011\u0001G\u0001\u0005U\u00064\u0018-\u0003\u0002\u001b+\tA!+\u001e8oC\ndW\r")
+public interface Batchable {
+}
+

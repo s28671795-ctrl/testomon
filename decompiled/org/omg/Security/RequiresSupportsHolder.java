@@ -1,0 +1,39 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.omg.Security;
+
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
+import org.omg.CORBA.portable.Streamable;
+import org.omg.Security.RequiresSupports;
+import org.omg.Security.RequiresSupportsHelper;
+
+public final class RequiresSupportsHolder
+implements Streamable {
+    public RequiresSupports value;
+
+    public RequiresSupportsHolder() {
+    }
+
+    public RequiresSupportsHolder(RequiresSupports initial) {
+        this.value = initial;
+    }
+
+    @Override
+    public TypeCode _type() {
+        return RequiresSupportsHelper.type();
+    }
+
+    @Override
+    public void _read(InputStream in) {
+        this.value = RequiresSupportsHelper.read(in);
+    }
+
+    @Override
+    public void _write(OutputStream out) {
+        RequiresSupportsHelper.write(out, this.value);
+    }
+}
+

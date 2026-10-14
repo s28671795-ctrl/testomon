@@ -1,0 +1,39 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.omg.PortableServer.POAPackage;
+
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
+import org.omg.CORBA.portable.Streamable;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
+import org.omg.PortableServer.POAPackage.WrongPolicyHelper;
+
+public final class WrongPolicyHolder
+implements Streamable {
+    public WrongPolicy value;
+
+    public WrongPolicyHolder() {
+    }
+
+    public WrongPolicyHolder(WrongPolicy initial) {
+        this.value = initial;
+    }
+
+    @Override
+    public TypeCode _type() {
+        return WrongPolicyHelper.type();
+    }
+
+    @Override
+    public void _read(InputStream _in) {
+        this.value = WrongPolicyHelper.read(_in);
+    }
+
+    @Override
+    public void _write(OutputStream _out) {
+        WrongPolicyHelper.write(_out, this.value);
+    }
+}
+

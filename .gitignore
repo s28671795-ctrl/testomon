@@ -1,0 +1,6 @@
+# Игнорировать всё
+/*
+
+# Кроме decompiled
+!/decompiled/
+!/.gitignore

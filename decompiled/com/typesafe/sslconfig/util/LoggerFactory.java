@@ -1,0 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package com.typesafe.sslconfig.util;
+
+import com.typesafe.sslconfig.util.NoDepsLogger;
+import scala.reflect.ScalaSignature;
+
+@ScalaSignature(bytes="\u0006\u0005e2qa\u0001\u0003\u0011\u0002G\u0005Q\u0002C\u0003\u0015\u0001\u0019\u0005Q\u0003C\u0003\u0015\u0001\u0019\u00051GA\u0007M_\u001e<WM\u001d$bGR|'/\u001f\u0006\u0003\u000b\u0019\tA!\u001e;jY*\u0011q\u0001C\u0001\ngNd7m\u001c8gS\u001eT!!\u0003\u0006\u0002\u0011QL\b/Z:bM\u0016T\u0011aC\u0001\u0004G>l7\u0001A\n\u0003\u00019\u0001\"a\u0004\n\u000e\u0003AQ\u0011!E\u0001\u0006g\u000e\fG.Y\u0005\u0003'A\u0011a!\u00118z%\u00164\u0017!B1qa2LHC\u0001\f\u001b!\t9\u0002$D\u0001\u0005\u0013\tIBA\u0001\u0007O_\u0012+\u0007o\u001d'pO\u001e,'\u000fC\u0003\u001c\u0003\u0001\u0007A$A\u0003dY\u0006T(\u0010\r\u0002\u001eUA\u0019a$\n\u0015\u000f\u0005}\u0019\u0003C\u0001\u0011\u0011\u001b\u0005\t#B\u0001\u0012\r\u0003\u0019a$o\\8u}%\u0011A\u0005E\u0001\u0007!J,G-\u001a4\n\u0005\u0019:#!B\"mCN\u001c(B\u0001\u0013\u0011!\tI#\u0006\u0004\u0001\u0005\u0013-R\u0012\u0011!A\u0001\u0006\u0003a#aA0%cE\u0011Q\u0006\r\t\u0003\u001f9J!a\f\t\u0003\u000f9{G\u000f[5oOB\u0011q\"M\u0005\u0003eA\u00111!\u00118z)\t1B\u0007C\u00036\u0005\u0001\u0007a'\u0001\u0003oC6,\u0007C\u0001\u00108\u0013\tAtE\u0001\u0004TiJLgn\u001a")
+public interface LoggerFactory {
+    public NoDepsLogger apply(Class<?> var1);
+
+    public NoDepsLogger apply(String var1);
+}
+

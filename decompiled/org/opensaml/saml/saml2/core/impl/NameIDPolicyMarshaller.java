@@ -1,0 +1,28 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.opensaml.saml.saml2.core.impl;
+
+import org.opensaml.core.xml.XMLObject;
+import org.opensaml.core.xml.io.MarshallingException;
+import org.opensaml.saml.common.AbstractSAMLObjectMarshaller;
+import org.opensaml.saml.saml2.core.NameIDPolicy;
+import org.w3c.dom.Element;
+
+public class NameIDPolicyMarshaller
+extends AbstractSAMLObjectMarshaller {
+    @Override
+    protected void marshallAttributes(XMLObject samlObject, Element domElement) throws MarshallingException {
+        NameIDPolicy policy = (NameIDPolicy)samlObject;
+        if (policy.getFormat() != null) {
+            domElement.setAttributeNS(null, "Format", policy.getFormat());
+        }
+        if (policy.getSPNameQualifier() != null) {
+            domElement.setAttributeNS(null, "SPNameQualifier", policy.getSPNameQualifier());
+        }
+        if (policy.getAllowCreateXSBoolean() != null) {
+            domElement.setAttributeNS(null, "AllowCreate", policy.getAllowCreateXSBoolean().toString());
+        }
+    }
+}
+

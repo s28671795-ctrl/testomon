@@ -1,0 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package scala.concurrent;
+
+import scala.concurrent.Batchable;
+import scala.reflect.ScalaSignature;
+
+@ScalaSignature(bytes="\u0006\u0005!2\u0001\"\u0001\u0002\u0011\u0002G\u0005q\u0001\u0005\u0002\u0013\u001f:\u001cu.\u001c9mKR,'+\u001e8oC\ndWM\u0003\u0002\u0004\t\u0005Q1m\u001c8dkJ\u0014XM\u001c;\u000b\u0003\u0015\tQa]2bY\u0006\u001c\u0001aE\u0002\u0001\u00111\u0001\"!\u0003\u0006\u000e\u0003\u0011I!a\u0003\u0003\u0003\r\u0005s\u0017PU3g!\tia\"D\u0001\u0003\u0013\ty!AA\u0005CCR\u001c\u0007.\u00192mKJ\u0019\u0011#\u0006\f\u0007\tI\u0001\u0001\u0001\u0005\u0002\ryI,g-\u001b8f[\u0016tGO\u0010\u0006\u0003)\u0019\ta\u0001\u0010:p_Rt\u0004CA\u0007\u0001!\t9B$D\u0001\u0019\u0015\tI\"$\u0001\u0003mC:<'\"A\u000e\u0002\t)\fg/Y\u0005\u0003;a\u0011\u0001BU;o]\u0006\u0014G.\u001a\u0015\u0007\u0001}\u00113%\n\u0014\u0011\u0005%\u0001\u0013BA\u0011\u0005\u0005)!W\r\u001d:fG\u0006$X\rZ\u0001\b[\u0016\u001c8/Y4fC\u0005!\u0013AK*va\u0016\u00148/\u001a3fI\u0002\u0012\u0017\u0010\t1tG\u0006d\u0017ML2p]\u000e,(O]3oi:\u0012\u0015\r^2iC\ndW\rY\u0001\u0006g&t7-Z\u0011\u0002O\u00051!GL\u00194]A\u0002")
+public interface OnCompleteRunnable
+extends Batchable {
+}
+

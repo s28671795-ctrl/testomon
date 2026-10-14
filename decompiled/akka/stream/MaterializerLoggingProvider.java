@@ -1,0 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package akka.stream;
+
+import akka.annotation.DoNotInherit;
+import akka.event.LoggingAdapter;
+import scala.reflect.ScalaSignature;
+
+@ScalaSignature(bytes="\u0006\u0005Y2\u0001BA\u0002\u0011\u0002G\u0005\u0001b\n\u0005\u0006\u001f\u00011\t\u0001\u0005\u0002\u001c\u001b\u0006$XM]5bY&TXM\u001d'pO\u001eLgn\u001a)s_ZLG-\u001a:\u000b\u0005\u0011)\u0011AB:ue\u0016\fWNC\u0001\u0007\u0003\u0011\t7n[1\u0004\u0001M\u0011\u0001!\u0003\t\u0003\u00155i\u0011a\u0003\u0006\u0002\u0019\u0005)1oY1mC&\u0011ab\u0003\u0002\u0007\u0003:L(+\u001a4\u0002\u00155\f7.\u001a'pO\u001e,'\u000f\u0006\u0002\u0012/A\u0011!#F\u0007\u0002')\u0011A#B\u0001\u0006KZ,g\u000e^\u0005\u0003-M\u0011a\u0002T8hO&tw-\u00113baR,'\u000fC\u0003\u0019\u0003\u0001\u0007\u0011$A\u0005m_\u001e\u001cv.\u001e:dKB\u0019!$\t\u0013\u000f\u0005my\u0002C\u0001\u000f\f\u001b\u0005i\"B\u0001\u0010\b\u0003\u0019a$o\\8u}%\u0011\u0001eC\u0001\u0007!J,G-\u001a4\n\u0005\t\u001a#!B\"mCN\u001c(B\u0001\u0011\f!\tQQ%\u0003\u0002'\u0017\t\u0019\u0011I\\=\u0013\u0007!RCF\u0002\u0003*\u0001\u00019#\u0001\u0004\u001fsK\u001aLg.Z7f]Rt\u0004CA\u0016\u0001\u001b\u0005\u0019\u0001CA\u0016.\u0013\tq3A\u0001\u0007NCR,'/[1mSj,'\u000f\u000b\u0002\u0001aA\u0011\u0011\u0007N\u0007\u0002e)\u00111'B\u0001\u000bC:tw\u000e^1uS>t\u0017BA\u001b3\u00051!uNT8u\u0013:DWM]5u\u0001")
+@DoNotInherit
+public interface MaterializerLoggingProvider {
+    public LoggingAdapter makeLogger(Class<Object> var1);
+}
+

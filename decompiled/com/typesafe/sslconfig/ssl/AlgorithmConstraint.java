@@ -1,0 +1,11 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package com.typesafe.sslconfig.ssl;
+
+import scala.reflect.ScalaSignature;
+
+@ScalaSignature(bytes="\u0006\u0005\u00052AAA\u0002\u0001\u0019!)1\u0003\u0001C\u0001)\t\u0019\u0012\t\\4pe&$\b.\\\"p]N$(/Y5oi*\u0011A!B\u0001\u0004gNd'B\u0001\u0004\b\u0003%\u00198\u000f\\2p]\u001aLwM\u0003\u0002\t\u0013\u0005AA/\u001f9fg\u00064WMC\u0001\u000b\u0003\r\u0019w.\\\u0002\u0001'\t\u0001Q\u0002\u0005\u0002\u000f#5\tqBC\u0001\u0011\u0003\u0015\u00198-\u00197b\u0013\t\u0011rB\u0001\u0004B]f\u0014VMZ\u0001\u0007y%t\u0017\u000e\u001e \u0015\u0003U\u0001\"A\u0006\u0001\u000e\u0003\rAc\u0001\u0001\r\u001c9yy\u0002C\u0001\b\u001a\u0013\tQrB\u0001\u0006eKB\u0014XmY1uK\u0012\fq!\\3tg\u0006<W-I\u0001\u001e\u00035qw\u000e\u001e\u0011pa\u0016\u0014\u0018\r^5wK\u0006)1/\u001b8dK\u0006\n\u0001%A\u00031]Ur\u0003\u0007")
+public class AlgorithmConstraint {
+}
+

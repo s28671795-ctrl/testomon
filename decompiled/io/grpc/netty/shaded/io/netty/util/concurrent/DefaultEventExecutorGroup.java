@@ -1,0 +1,35 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+import io.grpc.netty.shaded.io.netty.util.concurrent.DefaultEventExecutor;
+import io.grpc.netty.shaded.io.netty.util.concurrent.EventExecutor;
+import io.grpc.netty.shaded.io.netty.util.concurrent.EventExecutorGroup;
+import io.grpc.netty.shaded.io.netty.util.concurrent.MultithreadEventExecutorGroup;
+import io.grpc.netty.shaded.io.netty.util.concurrent.RejectedExecutionHandler;
+import io.grpc.netty.shaded.io.netty.util.concurrent.RejectedExecutionHandlers;
+import io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadFactory;
+
+public class DefaultEventExecutorGroup
+extends MultithreadEventExecutorGroup {
+    public DefaultEventExecutorGroup(int nThreads) {
+        this(nThreads, null);
+    }
+
+    public DefaultEventExecutorGroup(int nThreads, ThreadFactory threadFactory) {
+        this(nThreads, threadFactory, SingleThreadEventExecutor.DEFAULT_MAX_PENDING_EXECUTOR_TASKS, RejectedExecutionHandlers.reject());
+    }
+
+    public DefaultEventExecutorGroup(int nThreads, ThreadFactory threadFactory, int maxPendingTasks, RejectedExecutionHandler rejectedHandler) {
+        super(nThreads, threadFactory, maxPendingTasks, rejectedHandler);
+    }
+
+    @Override
+    protected EventExecutor newChild(Executor executor2, Object ... args2) throws Exception {
+        return new DefaultEventExecutor((EventExecutorGroup)this, executor2, (int)((Integer)args2[0]), (RejectedExecutionHandler)args2[1]);
+    }
+}
+

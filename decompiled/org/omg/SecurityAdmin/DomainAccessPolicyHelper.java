@@ -1,0 +1,74 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.omg.SecurityAdmin;
+
+import org.omg.CORBA.Any;
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Object;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
+import org.omg.SecurityAdmin.DomainAccessPolicy;
+
+public abstract class DomainAccessPolicyHelper {
+    private static volatile TypeCode _type;
+
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     * Enabled force condition propagation
+     * Lifted jumps to return sites
+     */
+    public static TypeCode type() {
+        if (_type != null) return _type;
+        Class<DomainAccessPolicyHelper> clazz = DomainAccessPolicyHelper.class;
+        synchronized (DomainAccessPolicyHelper.class) {
+            if (_type != null) return _type;
+            _type = ORB.init().create_interface_tc("IDL:omg.org/SecurityAdmin/DomainAccessPolicy:1.0", "DomainAccessPolicy");
+            // ** MonitorExit[var0] (shouldn't be in output)
+            return _type;
+        }
+    }
+
+    public static void insert(Any any, DomainAccessPolicy s2) {
+        any.insert_Object(s2);
+    }
+
+    public static DomainAccessPolicy extract(Any any) {
+        return DomainAccessPolicyHelper.narrow(any.extract_Object());
+    }
+
+    public static String id() {
+        return "IDL:omg.org/SecurityAdmin/DomainAccessPolicy:1.0";
+    }
+
+    public static DomainAccessPolicy read(InputStream in) {
+        return DomainAccessPolicyHelper.narrow(in.read_Object());
+    }
+
+    public static void write(OutputStream _out, DomainAccessPolicy s2) {
+        _out.write_Object(s2);
+    }
+
+    public static DomainAccessPolicy narrow(Object obj) {
+        if (obj == null) {
+            return null;
+        }
+        if (obj instanceof DomainAccessPolicy) {
+            return (DomainAccessPolicy)obj;
+        }
+        throw new BAD_PARAM("Narrow failed");
+    }
+
+    public static DomainAccessPolicy unchecked_narrow(Object obj) {
+        if (obj == null) {
+            return null;
+        }
+        if (obj instanceof DomainAccessPolicy) {
+            return (DomainAccessPolicy)obj;
+        }
+        throw new BAD_PARAM("Narrow failed");
+    }
+}
+

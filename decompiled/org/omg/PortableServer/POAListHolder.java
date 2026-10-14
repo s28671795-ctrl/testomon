@@ -1,0 +1,39 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.omg.PortableServer;
+
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
+import org.omg.CORBA.portable.Streamable;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.POAListHelper;
+
+public final class POAListHolder
+implements Streamable {
+    public POA[] value;
+
+    public POAListHolder() {
+    }
+
+    public POAListHolder(POA[] initial) {
+        this.value = initial;
+    }
+
+    @Override
+    public TypeCode _type() {
+        return POAListHelper.type();
+    }
+
+    @Override
+    public void _read(InputStream in) {
+        this.value = POAListHelper.read(in);
+    }
+
+    @Override
+    public void _write(OutputStream out) {
+        POAListHelper.write(out, this.value);
+    }
+}
+

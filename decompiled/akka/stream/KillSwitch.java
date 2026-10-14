@@ -1,0 +1,14 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package akka.stream;
+
+import scala.reflect.ScalaSignature;
+
+@ScalaSignature(bytes="\u0006\u0005\u00152qa\u0001\u0003\u0011\u0002G\u0005\u0011\u0002C\u0003\u0011\u0001\u0019\u0005\u0011\u0003C\u0003\u0016\u0001\u0019\u0005aC\u0001\u0006LS2d7k^5uG\"T!!\u0002\u0004\u0002\rM$(/Z1n\u0015\u00059\u0011\u0001B1lW\u0006\u001c\u0001a\u0005\u0002\u0001\u0015A\u00111BD\u0007\u0002\u0019)\tQ\"A\u0003tG\u0006d\u0017-\u0003\u0002\u0010\u0019\t1\u0011I\\=SK\u001a\f\u0001b\u001d5vi\u0012|wO\u001c\u000b\u0002%A\u00111bE\u0005\u0003)1\u0011A!\u00168ji\u0006)\u0011MY8siR\u0011!c\u0006\u0005\u00061\t\u0001\r!G\u0001\u0003Kb\u0004\"A\u0007\u0012\u000f\u0005m\u0001cB\u0001\u000f \u001b\u0005i\"B\u0001\u0010\t\u0003\u0019a$o\\8u}%\tQ\"\u0003\u0002\"\u0019\u00059\u0001/Y2lC\u001e,\u0017BA\u0012%\u0005%!\u0006N]8xC\ndWM\u0003\u0002\"\u0019\u0001")
+public interface KillSwitch {
+    public void shutdown();
+
+    public void abort(Throwable var1);
+}
+

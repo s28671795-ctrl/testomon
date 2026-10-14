@@ -1,0 +1,29 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.glassfish.jersey.server.wadl.internal.generators.resourcedoc.model;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import org.glassfish.jersey.server.wadl.internal.generators.resourcedoc.model.ClassDocType;
+
+@XmlAccessorType(value=XmlAccessType.FIELD)
+@XmlType(name="resourceDoc", propOrder={"classDoc"})
+@XmlRootElement(name="resourceDoc")
+public class ResourceDocType {
+    @XmlElementWrapper(name="classDocs")
+    protected List<ClassDocType> classDoc;
+
+    public List<ClassDocType> getDocs() {
+        if (this.classDoc == null) {
+            this.classDoc = new ArrayList<ClassDocType>();
+        }
+        return this.classDoc;
+    }
+}
+

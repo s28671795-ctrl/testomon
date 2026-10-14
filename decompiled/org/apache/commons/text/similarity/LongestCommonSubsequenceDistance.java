@@ -1,0 +1,19 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.apache.commons.text.similarity;
+
+import org.apache.commons.text.similarity.EditDistance;
+import org.apache.commons.text.similarity.LongestCommonSubsequence;
+
+public class LongestCommonSubsequenceDistance
+implements EditDistance<Integer> {
+    @Override
+    public Integer apply(CharSequence left, CharSequence right) {
+        if (left == null || right == null) {
+            throw new IllegalArgumentException("Inputs must not be null");
+        }
+        return left.length() + right.length() - 2 * LongestCommonSubsequence.INSTANCE.apply(left, right);
+    }
+}
+

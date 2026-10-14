@@ -1,0 +1,11 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package akka.event;
+
+import scala.reflect.ScalaSignature;
+
+@ScalaSignature(bytes="\u0006\u0005\t2\u0001BA\u0002\u0011\u0002G\u0005\u0001\u0002H\u0003\u0005\u001f\u0001\u0001\u0001CA\nQe\u0016$\u0017nY1uK\u000ec\u0017m]:jM&,'O\u0003\u0002\u0005\u000b\u0005)QM^3oi*\ta!\u0001\u0003bW.\f7\u0001A\n\u0003\u0001%\u0001\"AC\u0007\u000e\u0003-Q\u0011\u0001D\u0001\u0006g\u000e\fG.Y\u0005\u0003\u001d-\u0011a!\u00118z%\u00164'AC\"mCN\u001c\u0018NZ5feB!!\"E\n\u001a\u0013\t\u00112BA\u0005Gk:\u001cG/[8ocA\u0011A#F\u0007\u0002\u0001%\u0011ac\u0006\u0002\u0006\u000bZ,g\u000e^\u0005\u00031\r\u0011\u0001\"\u0012<f]R\u0014Uo\u001d\t\u0003\u0015iI!aG\u0006\u0003\u000f\t{w\u000e\\3b]J\u0019QdH\u0011\u0007\ty\u0001\u0001\u0001\b\u0002\ryI,g-\u001b8f[\u0016tGO\u0010\t\u0003A\u0001i\u0011a\u0001\t\u0003A]\u0001")
+public interface PredicateClassifier {
+}
+

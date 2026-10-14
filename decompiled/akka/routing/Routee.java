@@ -1,0 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package akka.routing;
+
+import akka.actor.ActorRef;
+import scala.reflect.ScalaSignature;
+
+@ScalaSignature(bytes="\u0006\u0005\u00052qAA\u0002\u0011\u0002G\u0005\u0001\u0002C\u0003\u0010\u0001\u0019\u0005\u0001C\u0001\u0004S_V$X-\u001a\u0006\u0003\t\u0015\tqA]8vi&twMC\u0001\u0007\u0003\u0011\t7n[1\u0004\u0001M\u0011\u0001!\u0003\t\u0003\u00155i\u0011a\u0003\u0006\u0002\u0019\u0005)1oY1mC&\u0011ab\u0003\u0002\u0007\u0003:L(+\u001a4\u0002\tM,g\u000e\u001a\u000b\u0004#QI\u0002C\u0001\u0006\u0013\u0013\t\u00192B\u0001\u0003V]&$\b\"B\u000b\u0002\u0001\u00041\u0012aB7fgN\fw-\u001a\t\u0003\u0015]I!\u0001G\u0006\u0003\u0007\u0005s\u0017\u0010C\u0003\u001b\u0003\u0001\u00071$\u0001\u0004tK:$WM\u001d\t\u00039}i\u0011!\b\u0006\u0003=\u0015\tQ!Y2u_JL!\u0001I\u000f\u0003\u0011\u0005\u001bGo\u001c:SK\u001a\u0004")
+public interface Routee {
+    public void send(Object var1, ActorRef var2);
+}
+

@@ -1,0 +1,97 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.apache.activemq.broker.jmx;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import org.apache.activemq.broker.jmx.NetworkBridgeViewMBean;
+import org.apache.activemq.broker.jmx.NetworkDestinationView;
+import org.apache.activemq.network.NetworkBridge;
+
+public class NetworkBridgeView
+implements NetworkBridgeViewMBean {
+    private final NetworkBridge bridge;
+    private boolean createByDuplex = false;
+    private List<NetworkDestinationView> networkDestinationViewList = new CopyOnWriteArrayList<NetworkDestinationView>();
+
+    public NetworkBridgeView(NetworkBridge bridge) {
+        this.bridge = bridge;
+    }
+
+    @Override
+    public void start() throws Exception {
+        this.bridge.start();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        this.bridge.stop();
+    }
+
+    @Override
+    public String getLocalAddress() {
+        return this.bridge.getLocalAddress();
+    }
+
+    @Override
+    public String getRemoteAddress() {
+        return this.bridge.getRemoteAddress();
+    }
+
+    @Override
+    public String getRemoteBrokerName() {
+        return this.bridge.getRemoteBrokerName();
+    }
+
+    @Override
+    public String getRemoteBrokerId() {
+        return this.bridge.getRemoteBrokerId();
+    }
+
+    @Override
+    public String getLocalBrokerName() {
+        return this.bridge.getLocalBrokerName();
+    }
+
+    @Override
+    public long getEnqueueCounter() {
+        return this.bridge.getEnqueueCounter();
+    }
+
+    @Override
+    public long getDequeueCounter() {
+        return this.bridge.getDequeueCounter();
+    }
+
+    @Override
+    public long getReceivedCounter() {
+        return this.bridge.getNetworkBridgeStatistics().getReceivedCount().getCount();
+    }
+
+    @Override
+    public boolean isCreatedByDuplex() {
+        return this.createByDuplex;
+    }
+
+    public void setCreateByDuplex(boolean createByDuplex) {
+        this.createByDuplex = createByDuplex;
+    }
+
+    @Override
+    public void resetStats() {
+        this.bridge.resetStats();
+        for (NetworkDestinationView networkDestinationView : this.networkDestinationViewList) {
+            networkDestinationView.resetStats();
+        }
+    }
+
+    public void addNetworkDestinationView(NetworkDestinationView networkDestinationView) {
+        this.networkDestinationViewList.add(networkDestinationView);
+    }
+
+    public void removeNetworkDestinationView(NetworkDestinationView networkDestinationView) {
+        this.networkDestinationViewList.remove(networkDestinationView);
+    }
+}
+

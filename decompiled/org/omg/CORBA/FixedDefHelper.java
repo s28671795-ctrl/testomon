@@ -1,0 +1,83 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.omg.CORBA;
+
+import org.omg.CORBA.Any;
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.CORBA.FixedDef;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Object;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA._FixedDefStub;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.ObjectImpl;
+import org.omg.CORBA.portable.OutputStream;
+
+public abstract class FixedDefHelper {
+    private static volatile TypeCode _type;
+
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     * Enabled force condition propagation
+     * Lifted jumps to return sites
+     */
+    public static TypeCode type() {
+        if (_type != null) return _type;
+        Class<FixedDefHelper> clazz = FixedDefHelper.class;
+        synchronized (FixedDefHelper.class) {
+            if (_type != null) return _type;
+            _type = ORB.init().create_interface_tc("IDL:omg.org/CORBA/FixedDef:1.0", "FixedDef");
+            // ** MonitorExit[var0] (shouldn't be in output)
+            return _type;
+        }
+    }
+
+    public static void insert(Any any, FixedDef s2) {
+        any.insert_Object(s2);
+    }
+
+    public static FixedDef extract(Any any) {
+        return FixedDefHelper.narrow(any.extract_Object());
+    }
+
+    public static String id() {
+        return "IDL:omg.org/CORBA/FixedDef:1.0";
+    }
+
+    public static FixedDef read(InputStream in) {
+        return FixedDefHelper.narrow(in.read_Object(_FixedDefStub.class));
+    }
+
+    public static void write(OutputStream _out, FixedDef s2) {
+        _out.write_Object(s2);
+    }
+
+    public static FixedDef narrow(Object obj) {
+        if (obj == null) {
+            return null;
+        }
+        if (obj instanceof FixedDef) {
+            return (FixedDef)obj;
+        }
+        if (obj._is_a("IDL:omg.org/CORBA/FixedDef:1.0")) {
+            _FixedDefStub stub = new _FixedDefStub();
+            stub._set_delegate(((ObjectImpl)obj)._get_delegate());
+            return stub;
+        }
+        throw new BAD_PARAM("Narrow failed");
+    }
+
+    public static FixedDef unchecked_narrow(Object obj) {
+        if (obj == null) {
+            return null;
+        }
+        if (obj instanceof FixedDef) {
+            return (FixedDef)obj;
+        }
+        _FixedDefStub stub = new _FixedDefStub();
+        stub._set_delegate(((ObjectImpl)obj)._get_delegate());
+        return stub;
+    }
+}
+

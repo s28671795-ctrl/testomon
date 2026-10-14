@@ -1,0 +1,133 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.jooq;
+
+import org.jetbrains.annotations.NotNull;
+import org.jooq.Converter;
+import org.jooq.Field;
+import org.jooq.Record;
+import org.jooq.Row10;
+
+public interface Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>
+extends Record {
+    @Override
+    @NotNull
+    public Row10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> fieldsRow();
+
+    @Override
+    @NotNull
+    public Row10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> valuesRow();
+
+    @NotNull
+    public Field<T1> field1();
+
+    @NotNull
+    public Field<T2> field2();
+
+    @NotNull
+    public Field<T3> field3();
+
+    @NotNull
+    public Field<T4> field4();
+
+    @NotNull
+    public Field<T5> field5();
+
+    @NotNull
+    public Field<T6> field6();
+
+    @NotNull
+    public Field<T7> field7();
+
+    @NotNull
+    public Field<T8> field8();
+
+    @NotNull
+    public Field<T9> field9();
+
+    @NotNull
+    public Field<T10> field10();
+
+    public T1 value1();
+
+    public T2 value2();
+
+    public T3 value3();
+
+    public T4 value4();
+
+    public T5 value5();
+
+    public T6 value6();
+
+    public T7 value7();
+
+    public T8 value8();
+
+    public T9 value9();
+
+    public T10 value10();
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> value1(T1 var1);
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> value2(T2 var1);
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> value3(T3 var1);
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> value4(T4 var1);
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> value5(T5 var1);
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> value6(T6 var1);
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> value7(T7 var1);
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> value8(T8 var1);
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> value9(T9 var1);
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> value10(T10 var1);
+
+    @NotNull
+    public Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> values(T1 var1, T2 var2, T3 var3, T4 var4, T5 var5, T6 var6, T7 var7, T8 var8, T9 var9, T10 var10);
+
+    @Override
+    @NotNull
+    public <T> Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> with(Field<T> var1, T var2);
+
+    @Override
+    @NotNull
+    public <T, U> Record10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> with(Field<T> var1, U var2, Converter<? extends T, ? super U> var3);
+
+    public T1 component1();
+
+    public T2 component2();
+
+    public T3 component3();
+
+    public T4 component4();
+
+    public T5 component5();
+
+    public T6 component6();
+
+    public T7 component7();
+
+    public T8 component8();
+
+    public T9 component9();
+
+    public T10 component10();
+}
+

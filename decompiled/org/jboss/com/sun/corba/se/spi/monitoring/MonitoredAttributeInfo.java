@@ -1,0 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package org.jboss.com.sun.corba.se.spi.monitoring;
+
+public interface MonitoredAttributeInfo {
+    public boolean isWritable();
+
+    public boolean isStatistic();
+
+    public Class<?> type();
+
+    public String getDescription();
+}
+
